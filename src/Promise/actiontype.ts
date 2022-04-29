@@ -1,4 +1,3 @@
-
 type ResolveType = (value: any) => any
 type RejectType = (value: any) => any
 
