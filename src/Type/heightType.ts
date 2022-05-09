@@ -28,4 +28,10 @@ type ant = keyof Test
 
 let add: ant = 'webName'
 
+/**
+ * typeof 用法
+ * ReturnType 用法
+ */
+let timer: ReturnType<typeof setTimeout>
+
 export {}

@@ -19,7 +19,8 @@ interface TreeArrayItem {
 
 export function ArrayToTree(arr: TreeArrayItem[]): TreeNode | null {
   let rootNode = null
-  const findParentMap = new Map<number, TreeNode>()
+  const findParentMap = new Map<number, TreeNode>() 
+  //建立id -> node的映射 Map的优势是可以快速查找
   arr.forEach((ele) => {
     const { id, name, parent } = ele
     const TreeNode = { id, name }

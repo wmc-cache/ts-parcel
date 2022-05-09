@@ -1,5 +1,3 @@
-// typeof操作符可以用来获取一个变量或对象的类型
-// ReturnType可以获取函数的返回值类型
 let timer: ReturnType<typeof setTimeout>
 
 type Status = 'success' | 'no_running' | 'error' | 'running'
@@ -8,16 +6,6 @@ interface Result {
   status: Status
   key: number
   msg: string
-}
-
-let result: Result = { status: 'running', key: 1, msg: 'ok' }
-
-setTimeout(() => {
-  result = { status: 'success', key: 1, msg: 'ok' }
-}, 5000)
-
-function exportStatus(key: { key: string }): Result {
-  return result
 }
 
 export async function checkStatus(fileKey: string) {
@@ -44,4 +32,14 @@ export async function checkStatus(fileKey: string) {
     fn()
   })
 }
-checkStatus('start')
+
+let result: Result = { status: 'running', key: 1, msg: 'ok' }
+
+setTimeout(() => {
+  result = { status: 'success', key: 1, msg: 'ok' }
+}, 5000)
+
+function exportStatus(key: { key: string }): Result {
+  return result
+}
+
