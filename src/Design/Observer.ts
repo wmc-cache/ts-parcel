@@ -30,3 +30,5 @@ theme.addObserver(observer1)
 theme.addObserver(observer2)
 theme.setState(1)
 theme.setState(2)
+
+
