@@ -117,20 +117,51 @@ parcelRequire = (function (modules, cache, entry, globalName) {
   }
 
   return newRequire;
-})({"src/index.ts":[function(require,module,exports) {
-"use strict";
+})({"src/Vue2.0/Dep.ts":[function(require,module,exports) {
+"use strict"; //Dep 的角色，宛如一个“工具人”，它是 Watcher 和 Observer 之间的纽带，是“通信兵”
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-console.log("TypeScript");
-
-var wmc = /*#__PURE__*/_createClass(function wmc() {
-  _classCallCheck(this, wmc);
+Object.defineProperty(exports, "__esModule", {
+  value: true
 });
+exports.Dep = void 0;
+
+var Dep = /*#__PURE__*/function () {
+  function Dep() {
+    var subs = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+
+    _classCallCheck(this, Dep);
+
+    this.subs = subs;
+  } // 添加观察者
+
+
+  _createClass(Dep, [{
+    key: "addSub",
+    value: function addSub(sub) {
+      if (sub && sub.update) {
+        this.subs.push(sub);
+      }
+    } // 发送通知
+
+  }, {
+    key: "notify",
+    value: function notify() {
+      this.subs.forEach(function (sub) {
+        sub.update();
+      });
+    }
+  }]);
+
+  return Dep;
+}();
+
+exports.Dep = Dep;
 },{}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
@@ -335,5 +366,5 @@ function hmrAcceptRun(bundle, id) {
     return true;
   }
 }
-},{}]},{},["node_modules/parcel-bundler/src/builtins/hmr-runtime.js","src/index.ts"], null)
-//# sourceMappingURL=/src.f10117fe.js.map
+},{}]},{},["node_modules/parcel-bundler/src/builtins/hmr-runtime.js","src/Vue2.0/Dep.ts"], null)
+//# sourceMappingURL=/Dep.736b445e.js.map

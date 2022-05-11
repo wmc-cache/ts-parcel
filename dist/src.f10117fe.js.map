@@ -1,1 +1,1 @@
-{"version":3,"sources":["src/index.ts"],"names":[],"mappings":";;AAAA,OAAO,CAAC,GAAR,CAAY,YAAZ","file":"src.f10117fe.js","sourceRoot":"..","sourcesContent":["console.log(\"TypeScript\")"]}
+{"version":3,"sources":["src/index.ts"],"names":[],"mappings":";;;;;;;;AAAA,OAAO,CAAC,GAAR,CAAY,YAAZ;;IAEM","file":"src.f10117fe.js","sourceRoot":"..","sourcesContent":["console.log(\"TypeScript\")\n\nclass wmc {\n     \n}"]}

@@ -117,21 +117,275 @@ parcelRequire = (function (modules, cache, entry, globalName) {
   }
 
   return newRequire;
-})({"src/index.ts":[function(require,module,exports) {
-"use strict";
+})({"src/Vue2.0/Dep.ts":[function(require,module,exports) {
+"use strict"; //Dep 的角色，宛如一个“工具人”，它是 Watcher 和 Observer 之间的纽带，是“通信兵”
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.Dep = void 0;
+
+var Dep = /*#__PURE__*/function () {
+  function Dep() {
+    var subs = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+
+    _classCallCheck(this, Dep);
+
+    this.subs = subs;
+  } // 添加观察者
+
+
+  _createClass(Dep, [{
+    key: "addSub",
+    value: function addSub(sub) {
+      if (sub && sub.update) {
+        this.subs.push(sub);
+      }
+    } // 发送通知
+
+  }, {
+    key: "notify",
+    value: function notify() {
+      this.subs.forEach(function (sub) {
+        sub.update();
+      });
+    }
+  }]);
+
+  return Dep;
+}();
+
+exports.Dep = Dep;
+},{}],"src/Vue2.0/Watcher.ts":[function(require,module,exports) {
+"use strict";
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-console.log("TypeScript");
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
-var wmc = /*#__PURE__*/_createClass(function wmc() {
-  _classCallCheck(this, wmc);
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
 });
-},{}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+
+var Dep_1 = require("./Dep");
+
+var Watcher = /*#__PURE__*/function () {
+  function Watcher(vm, key, cb) {
+    _classCallCheck(this, Watcher);
+
+    this.vm = vm;
+    this.key = key;
+    this.cb = cb; // 把Watcher对象变化的时候更新视图
+
+    Dep_1.Dep.target = this;
+    console.log('Dep.target', Dep_1.Dep.target); // 触发get方法, 在get方法中调用addSub
+
+    this.oldValue = vm[key];
+    Dep_1.Dep.target = null;
+  } // 当数据发生变化的时候更新视图
+
+
+  _createClass(Watcher, [{
+    key: "update",
+    value: function update() {
+      var newValue = this.vm[this.key]; // 判断新值和旧值是否相等
+
+      if (this.oldValue === newValue) {
+        return;
+      }
+
+      this.cb(newValue);
+    }
+  }]);
+
+  return Watcher;
+}();
+},{"./Dep":"src/Vue2.0/Dep.ts"}],"src/Vue2.0/Compiler.ts":[function(require,module,exports) {
+"use strict";
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.Compiler = void 0;
+
+var Watcher_1 = require("./Watcher");
+
+var Compiler = /*#__PURE__*/function () {
+  function Compiler(vm) {
+    _classCallCheck(this, Compiler);
+
+    this.vm = vm;
+    this.el = vm.$el;
+    this.vm = vm;
+    this.compile(this.el);
+  } // 编译模板, 处理文本节点和元素节点
+
+
+  _createClass(Compiler, [{
+    key: "compile",
+    value: function compile(el) {
+      var _this = this;
+
+      var childNodes = el.childNodes;
+      Array.from(childNodes).forEach(function (node) {
+        // 处理文本节点
+        // console.log(node.nodeType, 'nodeType')
+        if (_this.isTextNode(node)) {
+          _this.compileText(node);
+        } else if (_this.isElementNode(node)) {
+          // 处理元素节点
+          _this.compileElement(node);
+        } // 判断node节点,是否有子节点, 如果有子节点,要递归调用compile
+
+
+        if (node.childNodes && node.childNodes.length) {
+          _this.compile(node);
+        }
+      });
+    } // 编译元素节点, 出来指令
+
+  }, {
+    key: "compileElement",
+    value: function compileElement(node) {
+      var _this2 = this;
+
+      console.log(node.attributes); // 遍历所有的属性节点
+
+      Array.from(node.attributes).forEach(function (attr) {
+        // 判断是否是指令
+        var attrName = attr.name;
+
+        if (_this2.isDirective(attrName)) {
+          // v-text --> text
+          attrName = attrName.substr(2);
+          var key = attr.value;
+
+          _this2.update(node, key, attrName);
+        }
+
+        if (_this2.isEvent(attrName)) {
+          // 是事件on开头
+          console.log(_this2.vm, 'attrName');
+          var _key = attr.value;
+          var dir = attrName.substring(3);
+
+          _this2.eventHandler(node, _this2.vm, _key, dir);
+        }
+      });
+    }
+  }, {
+    key: "isEvent",
+    value: function isEvent(attr) {
+      console.log(attr);
+      return attr.indexOf('on') === 0;
+    }
+  }, {
+    key: "update",
+    value: function update(node, key, attrName) {
+      //@ts-ignore
+      var updateFn = this[attrName + 'Updater'];
+      updateFn && updateFn.call(this, node, this.vm[key], key);
+    } // 处理 v-text 指令
+
+  }, {
+    key: "textUpdater",
+    value: function textUpdater(node, value, key) {
+      node.textContent = value;
+      new Watcher_1.Watcher(this.vm, key, function (newValue) {
+        node.textContent = newValue;
+      });
+    } // v-model
+
+  }, {
+    key: "modelUpdater",
+    value: function modelUpdater(node, value, key) {
+      var _this3 = this;
+
+      node.value = value;
+      new Watcher_1.Watcher(this.vm, key, function (newValue) {
+        node.value = newValue;
+      }); // 双向绑定
+
+      node.addEventListener('input', function () {
+        _this3.vm[key] = node.value;
+      });
+    } // 处理v-html
+
+  }, {
+    key: "htmlUpdater",
+    value: function htmlUpdater(node, value, key) {
+      node.innerHTML = value;
+      new Watcher_1.Watcher(this.vm, key, function (newValue) {
+        console.log(newValue, 'newValue');
+        node.innerHTML = newValue;
+      });
+    } // 编译文本节点，出来差值
+
+  }, {
+    key: "compileText",
+    value: function compileText(node) {
+      // console.dir(node)
+      var reg = /\{\{(.+?)\}\}/;
+      var value = node.textContent;
+
+      if (reg.test(value)) {
+        var key = RegExp.$1.trim();
+        node.textContent = value.replace(reg, this.vm[key]); // 创建watcher对象, 当数据改变更新视图
+
+        new Watcher_1.Watcher(this.vm, key, function (newValue) {
+          node.textContent = newValue;
+        });
+      }
+    } // 添加事件
+
+  }, {
+    key: "eventHandler",
+    value: function eventHandler(node, vm, exp, dir) {
+      var fn = vm.$options.methods && vm.$options.methods[exp];
+
+      if (dir && fn) {
+        node.addEventListener(dir, fn.bind(vm));
+      }
+    } // 判断元素属性是否是指令
+
+  }, {
+    key: "isDirective",
+    value: function isDirective(attrName) {
+      return attrName.startsWith('v-');
+    } // 判断节点是否是文本节点
+
+  }, {
+    key: "isTextNode",
+    value: function isTextNode(node) {
+      return node.nodeType === 3;
+    } // 判读节点是否是元素节点
+
+  }, {
+    key: "isElementNode",
+    value: function isElementNode(node) {
+      return node.nodeType === 1;
+    }
+  }]);
+
+  return Compiler;
+}();
+
+exports.Compiler = Compiler;
+},{"./Watcher":"src/Vue2.0/Watcher.ts"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -335,5 +589,5 @@ function hmrAcceptRun(bundle, id) {
     return true;
   }
 }
-},{}]},{},["node_modules/parcel-bundler/src/builtins/hmr-runtime.js","src/index.ts"], null)
-//# sourceMappingURL=/src.f10117fe.js.map
+},{}]},{},["node_modules/parcel-bundler/src/builtins/hmr-runtime.js","src/Vue2.0/Compiler.ts"], null)
+//# sourceMappingURL=/Compiler.a1a4c277.js.map

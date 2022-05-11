@@ -117,21 +117,98 @@ parcelRequire = (function (modules, cache, entry, globalName) {
   }
 
   return newRequire;
-})({"src/index.ts":[function(require,module,exports) {
-"use strict";
+})({"src/Vue2.0/Dep.ts":[function(require,module,exports) {
+"use strict"; //Dep 的角色，宛如一个“工具人”，它是 Watcher 和 Observer 之间的纽带，是“通信兵”
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.Dep = void 0;
+
+var Dep = /*#__PURE__*/function () {
+  function Dep() {
+    var subs = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+
+    _classCallCheck(this, Dep);
+
+    this.subs = subs;
+  } // 添加观察者
+
+
+  _createClass(Dep, [{
+    key: "addSub",
+    value: function addSub(sub) {
+      if (sub && sub.update) {
+        this.subs.push(sub);
+      }
+    } // 发送通知
+
+  }, {
+    key: "notify",
+    value: function notify() {
+      this.subs.forEach(function (sub) {
+        sub.update();
+      });
+    }
+  }]);
+
+  return Dep;
+}();
+
+exports.Dep = Dep;
+},{}],"src/Vue2.0/Watcher.ts":[function(require,module,exports) {
+"use strict";
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-console.log("TypeScript");
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
-var wmc = /*#__PURE__*/_createClass(function wmc() {
-  _classCallCheck(this, wmc);
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
 });
-},{}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+
+var Dep_1 = require("./Dep");
+
+var Watcher = /*#__PURE__*/function () {
+  function Watcher(vm, key, cb) {
+    _classCallCheck(this, Watcher);
+
+    this.vm = vm;
+    this.key = key;
+    this.cb = cb; // 把Watcher对象变化的时候更新视图
+
+    Dep_1.Dep.target = this;
+    console.log('Dep.target', Dep_1.Dep.target); // 触发get方法, 在get方法中调用addSub
+
+    this.oldValue = vm[key];
+    Dep_1.Dep.target = null;
+  } // 当数据发生变化的时候更新视图
+
+
+  _createClass(Watcher, [{
+    key: "update",
+    value: function update() {
+      var newValue = this.vm[this.key]; // 判断新值和旧值是否相等
+
+      if (this.oldValue === newValue) {
+        return;
+      }
+
+      this.cb(newValue);
+    }
+  }]);
+
+  return Watcher;
+}();
+},{"./Dep":"src/Vue2.0/Dep.ts"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -335,5 +412,5 @@ function hmrAcceptRun(bundle, id) {
     return true;
   }
 }
-},{}]},{},["node_modules/parcel-bundler/src/builtins/hmr-runtime.js","src/index.ts"], null)
-//# sourceMappingURL=/src.f10117fe.js.map
+},{}]},{},["node_modules/parcel-bundler/src/builtins/hmr-runtime.js","src/Vue2.0/Watcher.ts"], null)
+//# sourceMappingURL=/Watcher.c55d31d4.js.map

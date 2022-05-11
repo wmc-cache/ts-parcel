@@ -117,21 +117,127 @@ parcelRequire = (function (modules, cache, entry, globalName) {
   }
 
   return newRequire;
-})({"src/index.ts":[function(require,module,exports) {
-"use strict";
+})({"src/Vue2.0/Dep.ts":[function(require,module,exports) {
+"use strict"; //Dep 的角色，宛如一个“工具人”，它是 Watcher 和 Observer 之间的纽带，是“通信兵”
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.Dep = void 0;
+
+var Dep = /*#__PURE__*/function () {
+  function Dep() {
+    var subs = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+
+    _classCallCheck(this, Dep);
+
+    this.subs = subs;
+  } // 添加观察者
+
+
+  _createClass(Dep, [{
+    key: "addSub",
+    value: function addSub(sub) {
+      if (sub && sub.update) {
+        this.subs.push(sub);
+      }
+    } // 发送通知
+
+  }, {
+    key: "notify",
+    value: function notify() {
+      this.subs.forEach(function (sub) {
+        sub.update();
+      });
+    }
+  }]);
+
+  return Dep;
+}();
+
+exports.Dep = Dep;
+},{}],"src/Vue2.0/Observer.ts":[function(require,module,exports) {
+"use strict"; //Observer 的作用是遍历所有的属性，给它们安装上 getter / setter 方法
+
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-console.log("TypeScript");
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
-var wmc = /*#__PURE__*/_createClass(function wmc() {
-  _classCallCheck(this, wmc);
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
 });
-},{}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+exports.Observer = void 0;
+
+var Dep_1 = require("./Dep");
+
+var Observer = /*#__PURE__*/function () {
+  function Observer(data) {
+    _classCallCheck(this, Observer);
+
+    this.walk(data);
+  }
+
+  _createClass(Observer, [{
+    key: "walk",
+    value: function walk(data) {
+      var _this = this;
+
+      // 1. 判断data是否是对象
+      if (!data || _typeof(data) !== 'object') {
+        return;
+      } // 2.遍历data对象的所有属性
+
+
+      Object.keys(data).forEach(function (key) {
+        _this.defineReactive(data, key, data[key]);
+      });
+    }
+  }, {
+    key: "defineReactive",
+    value: function defineReactive(obj, key, val) {
+      var that = this; // 负责收集依赖, 并发送通知
+
+      var dep = new Dep_1.Dep(); // 如果是val对象,把val内部的属性转换成响应式对象
+
+      that.walk(val);
+      Object.defineProperty(obj, key, {
+        enumerable: true,
+        configurable: true,
+        get: function get() {
+          // 收集依赖
+          Dep_1.Dep.target && dep.addSub(Dep_1.Dep.target);
+          console.log(Dep_1.Dep.target);
+          return val;
+        },
+        set: function set(newValue) {
+          if (newValue === val) {
+            return;
+          }
+
+          val = newValue;
+          that.walk(newValue); // 发送通知
+
+          dep.notify();
+        }
+      });
+    }
+  }]);
+
+  return Observer;
+}();
+
+exports.Observer = Observer;
+},{"./Dep":"src/Vue2.0/Dep.ts"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -335,5 +441,5 @@ function hmrAcceptRun(bundle, id) {
     return true;
   }
 }
-},{}]},{},["node_modules/parcel-bundler/src/builtins/hmr-runtime.js","src/index.ts"], null)
-//# sourceMappingURL=/src.f10117fe.js.map
+},{}]},{},["node_modules/parcel-bundler/src/builtins/hmr-runtime.js","src/Vue2.0/Observer.ts"], null)
+//# sourceMappingURL=/Observer.f98144f0.js.map
