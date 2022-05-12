@@ -11,8 +11,9 @@ function log<T extends { new (...arg: any): any }>(FA: T) {
 function log2(target: any, key: string, describe: any) {
   const oldFn = describe.value
   describe.value = () => {
-    console.log('日志')
+    console.log('前置拦截')
     oldFn()
+    console.log('后置拦截')
   }
 }
 
@@ -23,7 +24,7 @@ class code {
   }
   @log2
   getName() {
-    console.log("name")
+    console.log('name')
     //return 'name'
   }
 }
