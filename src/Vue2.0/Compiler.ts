@@ -1,14 +1,14 @@
 import { Watcher } from './Watcher'
 
- export class Compiler {
-  private el: any
+export class Compiler {
+  private el: Node
   constructor(private vm: any) {
     this.el = vm.$el
     this.vm = vm
     this.compile(this.el)
   }
   // 编译模板, 处理文本节点和元素节点
-  compile(el: any) {
+  compile(el: Node) {
     let childNodes = el.childNodes
     Array.from(childNodes).forEach((node: any) => {
       // 处理文本节点
@@ -28,7 +28,7 @@ import { Watcher } from './Watcher'
   }
 
   // 编译元素节点, 出来指令
-  compileElement(node: any) {
+  compileElement(node: HTMLElement) {
     console.log(node.attributes)
     // 遍历所有的属性节点
     Array.from(node.attributes).forEach((attr: any) => {
@@ -51,26 +51,26 @@ import { Watcher } from './Watcher'
     })
   }
 
-  isEvent(attr: any) {
+  isEvent(attr: string) {
     console.log(attr)
     return attr.indexOf('on') === 0
   }
 
-  update(node: any, key: any, attrName: any) {
+  update(node: Node, key: string, attrName: string) {
     //@ts-ignore
     let updateFn = this[attrName + 'Updater']
     updateFn && updateFn.call(this, node, this.vm[key], key)
   }
 
   // 处理 v-text 指令
-  textUpdater(node: any, value: any, key: string) {
+  textUpdater(node: Node, value: string, key: string) {
     node.textContent = value
     new Watcher(this.vm, key, (newValue) => {
       node.textContent = newValue
     })
   }
   // v-model
-  modelUpdater(node: any, value: any, key: string) {
+  modelUpdater(node: any, value: string, key: string) {
     node.value = value
     new Watcher(this.vm, key, (newValue) => {
       node.value = newValue
@@ -83,7 +83,7 @@ import { Watcher } from './Watcher'
   }
 
   // 处理v-html
-  htmlUpdater(node: any, value: any, key: string) {
+  htmlUpdater(node: HTMLElement, value: string, key: string) {
     node.innerHTML = value
     new Watcher(this.vm, key, (newValue) => {
       console.log(newValue, 'newValue')
@@ -92,7 +92,7 @@ import { Watcher } from './Watcher'
   }
 
   // 编译文本节点，出来差值
-  compileText(node: any) {
+  compileText(node:any) {
     // console.dir(node)
     let reg = /\{\{(.+?)\}\}/
     let value = node.textContent
@@ -108,7 +108,7 @@ import { Watcher } from './Watcher'
   }
 
   // 添加事件
-  eventHandler(node: any, vm: any, exp: any, dir: any) {
+  eventHandler(node:Node, vm: any, exp: any, dir: any) {
     const fn = vm.$options.methods && vm.$options.methods[exp]
     if (dir && fn) {
       node.addEventListener(dir, fn.bind(vm))
@@ -116,17 +116,17 @@ import { Watcher } from './Watcher'
   }
 
   // 判断元素属性是否是指令
-  isDirective(attrName: any) {
+  isDirective(attrName: string) {
     return attrName.startsWith('v-')
   }
 
   // 判断节点是否是文本节点
-  isTextNode(node: any) {
+  isTextNode(node: HTMLElement) {
     return node.nodeType === 3
   }
 
   // 判读节点是否是元素节点
-  isElementNode(node: any) {
+  isElementNode(node: HTMLElement) {
     return node.nodeType === 1
   }
 }

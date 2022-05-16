@@ -537,7 +537,8 @@ var Vue_1 = require("./Vue");
 new Vue_1.Vue({
   el: '#app',
   data: {
-    message: 'Hello Vue!'
+    message: 'Hello Vue!',
+    html: '<h1>Hello Vue!</h1> <input v-model="message" />'
   }
 });
 },{"./Vue":"src/Vue2.0/Vue.ts"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
@@ -568,7 +569,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50600" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55961" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

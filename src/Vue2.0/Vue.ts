@@ -3,7 +3,7 @@ import { Observer } from "./Observer"
 
 export class Vue {
   private $data: any
-  private $el: any
+  private $el: Node
   constructor(private options: any) {
     //1. 通过属性保存选项的数据
     this.$data = options.data
@@ -21,7 +21,8 @@ export class Vue {
   proxyData(data: any) {
     Object.keys(data).forEach((key) => {
       Object.defineProperty(this, key, {
-        //enumberable: true,
+        // @ts-ignore
+        enumberable: true,
         configurable: true,
         get() {
           return data[key]
