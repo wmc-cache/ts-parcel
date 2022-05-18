@@ -7,7 +7,7 @@ interface BinaryTreeNode {
 //         A
 //       B   C
 //     D
-//   E
+//   E   F
 const tree: BinaryTreeNode = {
   value: 'A',
   left: {
@@ -19,7 +19,11 @@ const tree: BinaryTreeNode = {
         left: null,
         right: null,
       },
-      right: null,
+      right: {
+        value: 'F',
+        left: null,
+        right: null,
+      },
     },
     right: null,
   },
@@ -31,18 +35,27 @@ const tree: BinaryTreeNode = {
 }
 function formerSequenceTraversal(tree: BinaryTreeNode | null) {
   if (tree === null) return
-  console.log(tree.value)
+  console.log('--', tree.value)
   formerSequenceTraversal(tree.left)
   formerSequenceTraversal(tree.right)
 }
 
 formerSequenceTraversal(tree)
 
-function SequenceTraversal(tree: BinaryTreeNode) {
+function SequenceTraversal(tree: BinaryTreeNode | null) {
   if (tree === null) return
-  formerSequenceTraversal(tree.left)
-  console.log(tree.value)
-  formerSequenceTraversal(tree.right)
+  SequenceTraversal(tree.left)
+  console.log('-----', tree.value)
+  SequenceTraversal(tree.right)
 }
 
 SequenceTraversal(tree)
+
+function afterSequenceTraversal(tree: BinaryTreeNode | null) {
+  if (tree === null) return
+  afterSequenceTraversal(tree.left)
+  afterSequenceTraversal(tree.right)
+  console.log('-----------', tree.value)
+}
+
+afterSequenceTraversal(tree)

@@ -1,6 +1,6 @@
 
        
 
-function myInstanceof (){
+function myInstanceof (obj){
    
 }

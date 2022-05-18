@@ -34,4 +34,30 @@ let add: ant = 'webName'
  */
 let timer: ReturnType<typeof setTimeout>
 
+/**
+ * pick 用法
+ */
+interface B {
+  id: number
+  name: string
+  age: number
+}
+
+type PickB = Pick<B, 'id' | 'name'>
+
+let b: PickB = { id: 1, name: 'name' }
+
+/**
+ * Omit 用法
+ */
+interface C {
+  id: number
+  name: string
+  age: number
+}
+
+type OmitC = Omit<C, 'id'>
+
+let c: OmitC = { name: 'name', age: 1 }
+
 export {}
