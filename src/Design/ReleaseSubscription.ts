@@ -9,9 +9,9 @@ class EventEmitter {
     if (fn) this.events[name].push(fn)
   }
 
-  emit(name: string) {
+  emit(name: string, ...args: any[]) {
     if (this.events[name]) {
-      this.events[name].forEach((fn) => fn.apply(this, arguments))
+      this.events[name].forEach((fn) => fn.apply(this, args))
     }
   }
   off(name: string) {
@@ -20,11 +20,11 @@ class EventEmitter {
 }
 
 const emitter = new EventEmitter()
-emitter.on('save', () => {
+emitter.on('save', (a:any,b:any,c:any) => {
   console.log('save')
+  console.log(a,b,c)
 })
 emitter.on('save', () => {
   console.log('save2')
 })
-emitter.on('save')
-emitter.emit('save')
+emitter.emit('save','aa','bb','cc')

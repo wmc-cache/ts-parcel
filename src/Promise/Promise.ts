@@ -1,6 +1,6 @@
 import { ResolveType, RejectType, Executor } from './actiontype'
 
-export default class Promise<T = any> {
+export default class Promise {
   public resolve!: ResolveType
   public reject!: RejectType
   public status: string
@@ -113,5 +113,28 @@ function isObject(val: any): val is Record<any, any> {
 function isFunction(data: any): data is Function {
   return typeof data === 'function'
 }
+
+const p = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    reject('success hello')
+  }, 1000)
+})
+
+p.then(
+  (res) => {
+    console.log(res)
+    return 'success'
+  },
+  (err) => {
+    console.log(err)
+  }
+).then(
+  (res) => {
+    console.log(res)
+  },
+  (err) => {
+    console.log(err)
+  }
+)
 
 export {}

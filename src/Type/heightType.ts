@@ -26,7 +26,7 @@ interface Test {
 
 type ant = keyof Test
 
-let add: ant = 'webName'
+let add: ant = 'address'
 
 /**
  * typeof 用法
