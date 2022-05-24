@@ -6,8 +6,8 @@ function updateView() {
 // 重新定义数组原型
 const oldArrayProperty = Array.prototype
 // 创建新对象，原型指向 oldArrayProperty ，再扩展新的方法不会影响原型
-const arrProto = Object.create(oldArrayProperty)
-;['push', 'pop', 'shift', 'unshift', 'splice'].forEach((methodName:any) => {
+const arrProto = Object.create(oldArrayProperty);
+['push', 'pop', 'shift', 'unshift', 'splice'].forEach((methodName:any) => {
   arrProto[methodName] = function () {
     updateView() // 触发视图更新
     oldArrayProperty[methodName].call(this, ...arguments)
