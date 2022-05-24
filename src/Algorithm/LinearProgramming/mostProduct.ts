@@ -14,4 +14,21 @@ export function getMmostProduct(n: number): number {
   }
   return result
 }
-console.log(getMmostProduct(10))
+
+// 动态规划
+export function getMmostProduct2(n: number): number {
+  let MostProductArray = new Array(n + 1).fill(1)
+  let temp
+  for (let i = 2; i <= n; i++) {
+    for (let j = 1; j < i; j++) {
+      console.log(i,j)
+      temp = Math.max(j * (i - j), j * MostProductArray[i - j])
+      if (temp > MostProductArray[i]) {
+        MostProductArray[i] = temp
+      }
+    }
+  }
+  console.log(MostProductArray)
+  return MostProductArray[n]
+}
+console.log(getMmostProduct2(10))
