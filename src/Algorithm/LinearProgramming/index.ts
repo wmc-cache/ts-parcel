@@ -18,6 +18,7 @@ function calculate2(n: number): number {
   }
   return calculateArray2[n]
 }
+
 console.time('calculate')
 console.log(calculate2(45))
 console.timeEnd('calculate')

@@ -1,1 +1,2 @@
-let num: number = 'jialiyanglezhihouzi'
+let num: string = 'jialiyanglezhihouzi'
+

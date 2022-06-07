@@ -120,59 +120,109 @@ parcelRequire = (function (modules, cache, entry, globalName) {
 })({"src/Tree/index.ts":[function(require,module,exports) {
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.ArrayToTree = void 0;
-var array = [{
-  id: 1,
-  name: "A",
-  parent: 0
+var arr = [{
+  id: '01',
+  name: '张大大',
+  pid: '',
+  job: '项目经理'
 }, {
-  id: 2,
-  name: "B",
-  parent: 1
+  id: '02',
+  name: '小亮',
+  pid: '01',
+  job: '产品leader'
 }, {
-  id: 3,
-  name: "C",
-  parent: 1
+  id: '03',
+  name: '小美',
+  pid: '01',
+  job: 'UIleader'
 }, {
-  id: 4,
-  name: "E",
-  parent: 2
+  id: '04',
+  name: '老马',
+  pid: '01',
+  job: '技术leader'
+}, {
+  id: '05',
+  name: '老王',
+  pid: '01',
+  job: '测试leader'
+}, {
+  id: '06',
+  name: '老李',
+  pid: '01',
+  job: '运维leader'
+}, {
+  id: '07',
+  name: '小丽',
+  pid: '02',
+  job: '产品经理'
+}, {
+  id: '08',
+  name: '大光',
+  pid: '02',
+  job: '产品经理'
+}, {
+  id: '09',
+  name: '小高',
+  pid: '03',
+  job: 'UI设计师'
+}, {
+  id: '10',
+  name: '小刘',
+  pid: '04',
+  job: '前端工程师'
+}, {
+  id: '11',
+  name: '小华',
+  pid: '04',
+  job: '后端工程师'
+}, {
+  id: '12',
+  name: '小李',
+  pid: '04',
+  job: '后端工程师'
+}, {
+  id: '13',
+  name: '小赵',
+  pid: '05',
+  job: '测试工程师'
+}, {
+  id: '14',
+  name: '小强',
+  pid: '05',
+  job: '测试工程师'
+}, {
+  id: '15',
+  name: '小涛',
+  pid: '06',
+  job: '运维工程师'
 }];
 
-function ArrayToTree(arr) {
-  var rootNode = null;
-  var findParentMap = new Map();
-  arr.forEach(function (ele) {
-    var id = ele.id,
-        name = ele.name,
-        parent = ele.parent;
-    var TreeNode = {
-      id: id,
-      name: name
-    };
-    findParentMap.set(id, TreeNode);
-    var ParentNode = findParentMap.get(parent);
+function translateArrToTree(arr) {
+  // 1.先是制作字典能够获得每一行的信息
+  var newArr = [];
+  var map = new Map();
+  arr.forEach(function (item) {
+    // 为了方便给每一项都添加上children
+    // 对象是直接.就可以添加属性的
+    item.children = [];
+    var key = item.id;
+    map.set(key, item);
+  }); // 2.遍历每一项,然后有父级的添加到父级的children中,没有父级的直接添加到新的数组中
 
-    if (ParentNode) {
-      if (ParentNode.childrenNode == null) {
-        ParentNode.childrenNode = [];
-      }
+  arr.forEach(function (item) {
+    var parent = map.get(item.pid);
 
-      ParentNode.childrenNode.push(TreeNode);
-    }
-
-    if (parent === 0) {
-      rootNode = TreeNode;
+    if (parent) {
+      parent.children.push(item);
+    } else {
+      newArr.push(item);
     }
   });
-  return rootNode;
+  return newArr;
 }
 
-exports.ArrayToTree = ArrayToTree;
-console.log(ArrayToTree(array));
+var res = translateArrToTree(arr);
+console.log(res);
 },{}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
@@ -201,7 +251,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "65152" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "65298" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
