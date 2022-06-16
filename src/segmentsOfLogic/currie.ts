@@ -1,15 +1,15 @@
 export function currie(fn: Function) {
   const fnLength = fn.length
-  const args: any[] = []
-  return function add(...arg: any[]): any {
-    args.push(...arg)
-    console.log(args)
-    if (args.length >= fnLength) {
-      return add(args)
+  let args: any[] = []
+  function calc(this: any, ...newArgs: any[]): any {
+    args = [...args, ...newArgs]
+    if (args.length < fnLength) {
+      return calc
     } else {
-      return add
+      return fn.apply(this, args.slice(0, fnLength))   //这里是fn
     }
   }
+  return calc
 }
 
 function add(a: number, b: number, c: number) {
@@ -18,4 +18,4 @@ function add(a: number, b: number, c: number) {
 
 const addCurrie = currie(add)
 //addCurrie(1, 2)(3)
-console.log(addCurrie(1, 2)(3))
+console.log(addCurrie(1)(2)(3))

@@ -5,7 +5,9 @@ export function deepClone(obj: any, map = new WeakMap()) {
   if (map.has(obj)) {
     return map.get(obj)
   }
-  let clone: any
+  let clone: any = {}
+
+  map.set(obj, clone)
 
   if (obj instanceof Map) {
     clone = new Map()
@@ -25,18 +27,27 @@ export function deepClone(obj: any, map = new WeakMap()) {
     return clone
   }
 
-  clone = Array.isArray(obj) ? [] : {}
-  Object.keys(obj).forEach((key) => {
-    clone[key] = deepClone(obj[key], map)
-  })
-  map.set(obj, clone)
-  return clone
+  if (obj instanceof Object) {
+    clone = Array.isArray(obj) ? [] : {}
+    Object.keys(obj).forEach((key) => {
+      clone[key] = deepClone(obj[key], map)
+    })
+    return clone
+  }
 }
 
-const map = new Map([
-  [1, 2],
-  [3, 4],
-])
-const set: any = new Set([1, 2, 3, 4])
+
+
+// const map = new Map([
+//   [1, 2],
+//   [3, 4],
+// ])
+// const set: any = new Set([1, 2, 3, 4])
 const obj = deepClone({ a: 1, b: 2, c: { d: 3, e: 4 } })
+obj.x = obj
+
 console.log(deepClone(obj))
+
+// Reflect.ownKeys(obj).forEach((key) => {
+//   console.log(key)
+// })

@@ -1,13 +1,8 @@
-// 触发更新视图
-function updateView() {
-  console.log('视图更新')
-}
-
 // 重新定义数组原型
 const oldArrayProperty = Array.prototype
 // 创建新对象，原型指向 oldArrayProperty ，再扩展新的方法不会影响原型
-const arrProto = Object.create(oldArrayProperty);
-['push', 'pop', 'shift', 'unshift', 'splice'].forEach((methodName:any) => {
+const arrProto = Object.create(oldArrayProperty)
+;['push', 'pop', 'shift', 'unshift', 'splice'].forEach((methodName: any) => {
   arrProto[methodName] = function () {
     updateView() // 触发视图更新
     oldArrayProperty[methodName].call(this, ...arguments)
@@ -15,8 +10,18 @@ const arrProto = Object.create(oldArrayProperty);
   }
 })
 
+// 准备数据
+const data = {
+  name: 'zhangsan',
+  age: 20,
+  info: {
+    address: '北京', // 需要深度监听
+  },
+  nums: [10, 20, 30],
+}
+
 // 重新定义属性，监听起来
-function defineReactive(target:any, key:string, value:any) {
+function defineReactive(target: any, key: string, value: any) {
   // 深度监听
   observer(value)
 
@@ -42,7 +47,7 @@ function defineReactive(target:any, key:string, value:any) {
 }
 
 // 监听对象属性
-function observer(target:any) {
+function observer(target: any) {
   if (typeof target !== 'object' || target === null) {
     // 不是对象或数组
     return target
@@ -65,14 +70,9 @@ function observer(target:any) {
   }
 }
 
-// 准备数据
-const data = {
-  name: 'zhangsan',
-  age: 20,
-  info: {
-    address: '北京', // 需要深度监听
-  },
-  nums: [10, 20, 30],
+// 触发更新视图
+function updateView() {
+  console.log('视图更新')
 }
 
 // 监听数据
@@ -83,6 +83,6 @@ observer(data)
 // data.age = 21
 // // console.log('age', data.age)
 // data.x = '100' // 新增属性，监听不到 —— 所以有 Vue.set
-// delete data.name // 删除属性，监听不到 —— 所有已 Vue.delete
+// delete data.name // 删除属性，监听不到 —— 所以有 Vue.delete
 // data.info.address = '上海' // 深度监听
 data.nums.push(4) // 监听数组
