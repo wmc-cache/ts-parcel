@@ -26,3 +26,6 @@ console.timeEnd('calculate')
 console.time('calculate2')
 console.log(calculate2(45))
 console.timeEnd('calculate2')
+
+
+
