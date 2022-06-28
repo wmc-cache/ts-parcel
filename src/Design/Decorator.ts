@@ -1,3 +1,7 @@
+
+
+
+//类装饰器
 function log<T extends { new (...arg: any): any }>(FA: T) {
   class coding extends FA {
     constructor(...args: any) {
@@ -8,6 +12,7 @@ function log<T extends { new (...arg: any): any }>(FA: T) {
   return coding
 }
 
+//方法装饰器
 function log2(target: any, key: string, describe: any) {
   const oldFn = describe.value
   describe.value = () => {
@@ -16,6 +21,8 @@ function log2(target: any, key: string, describe: any) {
     console.log('后置拦截')
   }
 }
+
+
 
 @log
 class code {
