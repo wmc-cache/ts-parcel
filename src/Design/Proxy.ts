@@ -74,11 +74,11 @@ const data = {
 }
 
 const proxyData = reactive(data)
-proxyData.name = 'lisi'
-proxyData.kkk = "wmc"
-console.log(proxyData)
-delete proxyData.kkk
-console.log(proxyData)
+// proxyData.name = 'lisi'
+// proxyData.kkk = "wmc"
+// console.log(proxyData)
+// delete proxyData.kkk
+console.log(proxyData.info.a.b.c.d.e)
 
 
 export {}
