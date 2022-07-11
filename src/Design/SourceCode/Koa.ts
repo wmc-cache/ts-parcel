@@ -30,7 +30,7 @@ function composeMiddlewares(middlewares: Middleware[]) {
 
 class Koa {
   middlewares: Middleware[] = []
-
+  
   use(middleware: Middleware) {
     this.middlewares.push(middleware)
   }

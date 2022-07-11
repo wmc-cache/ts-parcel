@@ -1,28 +1,48 @@
-interface Axios {
-  useRequestInterceptor?: (resolved: Function, rejected?: Function) => void
-  useResponseInterceptor?: (resolved: Function, rejected?: Function) => void
-  run: (config: any) => Promise<any>
-  interceptors?: {
+interface AxiosType {
+  interceptors: {
     request: Array<{ resolved: Function; rejected?: Function }>
     response: Array<{ resolved: Function; rejected?: Function }>
   }
+  useRequestInterceptor: (resolved: Function, rejected?: Function) => void
+  useResponseInterceptor: (resolved: Function, rejected?: Function) => void
+  run: (config: any) => Promise<any>
 }
 
-const run = (config: any) => {
+class Axios implements AxiosType {
+  interceptors: {
+    request: Array<{ resolved: Function; rejected?: Function }>
+    response: Array<{ resolved: Function; rejected?: Function }>
+  }
+  constructor() {
+    this.interceptors = {
+      request: [],
+      response: [],
+    }
+  }
+  // 注册请求拦截器
+  useRequestInterceptor(resolved: Function, rejected?: Function) {
+    this.interceptors?.request.push({ resolved, rejected })
+  }
+  // 注册响应拦截器
+  useResponseInterceptor(resolved: Function, rejected?: Function) {
+    this.interceptors?.response.push({ resolved, rejected })
+  }
+
+  run(config: any) {
     const chain: any = [
       {
-        resolved: axios,
+        resolved: this,
         rejected: undefined,
       },
     ]
 
     // 把请求拦截器往数组头部推
-    axios.interceptors?.request.forEach((interceptor: any) => {
+    this.interceptors?.request.forEach((interceptor: any) => {
       chain.unshift(interceptor)
     })
 
     // 把响应拦截器往数组尾部推
-    axios.interceptors?.response.forEach((interceptor: any) => {
+    this.interceptors?.response.forEach((interceptor: any) => {
       chain.push(interceptor)
     })
 
@@ -38,27 +58,19 @@ const run = (config: any) => {
 
     // 最后暴露给用户的就是响应拦截器处理过后的promise
     return promise
+  }
 }
 
-export let axios: Axios = {
-  run
-}
 
-// 先构造一个对象 存放拦截器
-axios.interceptors = {
-  request: [],
-  response: [],
-}
 
-// 注册请求拦截器
-axios.useRequestInterceptor = (resolved: Function, rejected?: Function) => {
-  axios.interceptors?.request.push({ resolved, rejected })
-}
 
-// 注册响应拦截器
-axios.useResponseInterceptor = (resolved: Function, rejected?: Function) => {
-  axios.interceptors?.response.push({ resolved, rejected })
-}
+
+
+
+
+// 测试代码
+const axios = new Axios()
+
 
 axios.useRequestInterceptor((config: any) => {
   return {
@@ -87,7 +99,7 @@ async function request() {
   const result = await axios.run({
     message: 'message1',
   })
-  console.log('result1: ', result)
+  console.log('result: ', result)
 }
 
 request()
