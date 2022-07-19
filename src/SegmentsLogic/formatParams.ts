@@ -11,7 +11,5 @@ const formatParmas = Object.keys(form)
   .filter((key) => ![undefined, null, ''].includes(form[key]))
   .reduce((acc, key) => ({ ...acc, [key]: form[key] }), {})
 
-console.log(Object.keys(form)
-  .filter((key) => ![undefined, null, ''].includes(form[key])))
 
 
