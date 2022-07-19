@@ -4,46 +4,46 @@ type Context = {
 }
 type Middleware = (ctx: Context, next: Function) => void
 
-function composeMiddlewares(middlewares: Middleware[]) {
-  return function wrapMiddlewares(ctx: Context) {
-    // 记录当前运行的middleware的下标
-    let index = -1
-    function dispatch(i: number) {
-      // index向后移动
-      index = i
-      // 最后一个中间件调用next 也不会报错
-      const fn = middlewares[i]
-      if (!fn) return Promise.resolve()
-      return Promise.resolve(
-        fn(
-          // 继续传递ctx
-          ctx,
-          // next方法，允许进入下一个中间件。
-          () => dispatch(i + 1)
-        )
-      )
-    }
-    // 开始运行第一个中间件
-    return dispatch(0)
-  }
-}
-
-class Koa {
+export class Koa {
   middlewares: Middleware[] = []
-  
+
   use(middleware: Middleware) {
     this.middlewares.push(middleware)
   }
 
   start({ req }: any) {
     // 组合中间件
-    const composed = composeMiddlewares(this.middlewares)
+    const composed = this.composeMiddlewares(this.middlewares)
     // 初始化ctx
     const ctx = { req, res: undefined }
     return composed(ctx)
   }
+  composeMiddlewares(middlewares: Middleware[]) {
+    return function wrapMiddlewares(ctx: Context) {
+      // 记录当前运行的middleware的下标
+      let index = -1
+      function dispatch(i: number) {
+        // index向后移动
+        index = i
+        // 最后一个中间件调用next 也不会报错
+        const fn = middlewares[i]
+        if (!fn) return Promise.resolve()
+        return Promise.resolve(
+          fn(
+            // 继续传递ctx
+            ctx,
+            // next方法，允许进入下一个中间件。
+            () => dispatch(i + 1)
+          )
+        )
+      }
+      // 开始运行第一个中间件
+      return dispatch(0)
+    }
+  }
 }
 
+// 测试代码
 const app = new Koa()
 
 // 最外层 管控全局错误
