@@ -114,12 +114,16 @@ function isFunction(data: any): data is Function {
   return typeof data === 'function'
 }
 
+
+
+
+
+// 测试代码
 const p = new Promise((resolve, reject) => {
   setTimeout(() => {
     reject('success hello')
   }, 1000)
 })
-
 p.then(
   (res) => {
     console.log(res)
@@ -136,5 +140,3 @@ p.then(
     console.log(err)
   }
 )
-
-export {}
