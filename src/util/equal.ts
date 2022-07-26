@@ -4,6 +4,9 @@ function isFunction(obj: any) {
   return toString.call(obj) === '[object Function]'
 }
 
+// NaN == NaN  返回 false
+// null == null 返回 true
+
 export function eq(a: any, b: any, aStack?: any, bStack?: any) {
   // === 结果为 true 的区别出 +0 和 -0
   if (a === b) return a !== 0 || 1 / a === 1 / b
@@ -117,9 +120,9 @@ function deepEq(a: any, b: any, aStack: any, bStack: any) {
 // console.log(eq([1], [1])) // true
 // console.log(eq({ value: 1 }, { value: 1 })) // true
 
-let a: any = { foo: { b: { foo: { c: { foo: null } } } } }
-let b: any = { foo: { b: { foo: { c: { foo: null } } } } }
-a.foo.b.foo.c.foo = a
-b.foo.b.foo.c.foo = b
+// let a: any = { foo: { b: { foo: { c: { foo: null } } } } }
+// let b: any = { foo: { b: { foo: { c: { foo: null } } } } }
+// a.foo.b.foo.c.foo = a
+// b.foo.b.foo.c.foo = b
 
-console.log(eq(a, b)) // true
+console.log(eq('qq', 'qq')) // true
