@@ -20,11 +20,20 @@ class EventEmitter {
 }
 
 const emitter = new EventEmitter()
-emitter.on('save', (a:any,b:any,c:any) => {
+emitter.on('save', (a: any, b: any, c: any) => {
   console.log('save')
-  console.log(a,b,c)
+  console.log(a, b, c)
 })
 emitter.on('save', () => {
   console.log('save2')
 })
-emitter.emit('save','aa','bb','cc')
+emitter.emit('save', 'aa', 'bb', 'cc')
+
+// vue watch
+watch: {
+  function date() {
+    // emitter.on('date', () => {
+    //   console.log('date')
+    // })
+  }
+}
