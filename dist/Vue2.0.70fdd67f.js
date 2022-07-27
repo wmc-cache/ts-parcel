@@ -504,7 +504,8 @@ var Vue = /*#__PURE__*/function () {
 
       Object.keys(data).forEach(function (key) {
         Object.defineProperty(_this, key, {
-          //enumberable: true,
+          // @ts-ignore
+          enumberable: true,
           configurable: true,
           get: function get() {
             return data[key];
@@ -569,7 +570,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55961" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59913" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
