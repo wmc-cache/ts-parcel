@@ -2,7 +2,10 @@
 const oldArrayProperty = Array.prototype
 // 创建新对象，原型指向 oldArrayProperty ，再扩展新的方法不会影响原型
 const arrProto = Object.create(oldArrayProperty)
-;['push', 'pop', 'shift', 'unshift', 'splice'].forEach((methodName: any) => {
+
+const arrApi = ['push', 'pop', 'shift', 'unshift', 'splice']
+
+arrApi.forEach((methodName: any) => {
   arrProto[methodName] = function () {
     updateView() // 触发视图更新
     oldArrayProperty[methodName].call(this, ...arguments)
@@ -25,7 +28,7 @@ function defineReactive(target: any, key: string, value: any) {
   // 深度监听
   observer(value)
 
-  // 核心 API
+  // 核心 API   defineproperty只能监听到value的 get set 变化
   Object.defineProperty(target, key, {
     get() {
       return value
@@ -85,4 +88,5 @@ observer(data)
 // data.x = '100' // 新增属性，监听不到 —— 所以有 Vue.set
 // delete data.name // 删除属性，监听不到 —— 所以有 Vue.delete
 // data.info.address = '上海' // 深度监听
-data.nums.push(4) // 监听数组
+data.nums.length = 1 // 监听数组
+console.log(data.nums[0], data.nums[1], data.nums[2])
