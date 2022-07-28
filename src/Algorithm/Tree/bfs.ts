@@ -10,6 +10,7 @@ const tree: TreeNode = {
     { value: 'C' },
   ],
 }
+
 function bfs(tree: TreeNode) {
   const queue: TreeNode[] = [tree]
   while (queue.length > 0) {
