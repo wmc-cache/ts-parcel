@@ -9,6 +9,7 @@ export default function downloadFile(url: string, fileName: string) {
   request.open('get', url, true)
   request.onreadystatechange = (e) => {
     if (request.readyState == XMLHttpRequest.DONE && request.status == 200) {
+      // 生成 blobURL，createObjectURL 方法创建从 URL 到 Blob 对象的映射关系
       download(URL.createObjectURL(request.response), fileName)
     }
   }

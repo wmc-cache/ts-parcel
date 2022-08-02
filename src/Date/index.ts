@@ -24,3 +24,19 @@ export function getTime(start: string, end: string) {
 // getTime('2022-07-08 18:00:00', new Date().toString())
 console.log(new Date().toString())
 getTime(new Date().toString(), '2022-07-08 18:00:00')
+
+/**
+ * @param time  时间戳转时间
+ * @returns 
+ */
+export function changeTimeFormat(time:number) {
+  const date = new Date(time)
+  const month =
+    date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1
+  const currentDate = date.getDate() < 10 ? '0' + date.getDate() : date.getDate()
+  const hh = date.getHours() < 10 ? '0' + date.getHours() : date.getHours()
+  const mm = date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes()
+  return (
+    date.getFullYear() + '-' + month + '-' + currentDate + ' ' + hh + ':' + mm
+  )
+}
