@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+
+        }
+
+        div::-webkit-scrollbar {
+            /*滚动条整体样式*/
+            width: 0px;
+            /*高宽分别对应横竖滚动条的尺寸*/
+            height: 0px;
+            scrollbar-arrow-color: red;
+
+        }
+
+        div::-webkit-scrollbar-thumb {
+            /*滚动条里面小方块*/
+            border-radius: 5px;
+            -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+            background: rgba(0, 0, 0, 0.2);
+            scrollbar-arrow-color: red;
+        }
+
+        div::-webkit-scrollbar-track {
+            /*滚动条里面轨道*/
+            -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+            border-radius: 0;
+            background: rgba(0, 0, 0, 0.1);
+        }
+    </style>
+
+</head>
+
+<body>
+    <div id="div" style="width: 200px;height:200px;background-color: salmon;overflow: scroll">
+        <div  style="width:100px;height:300px;background-color:rebeccapurple;">
+            oooo
+        </div>
+    </div>
+    <div>scrollHeight - scrollTop(获取位于对象最顶端和窗口中可见内容的最顶端之间的距离 ) < clientHeight + offset(偏移量)</div>
+            <div>scrollHeight:可滚动内容的高度</div>
+            <div>clientHeight=内容实际高度 + 上下内边距</div>
+            <div>offsetHeight= height + padding + border</div>
+</body>
+<script>
+    console.log(div.scrollHeight, div.scrollTop, div.clientHeight)
+    div.addEventListener('scroll', function () {
+        if (div.scrollHeight - div.scrollTop < div.clientHeight + 10) {
+            console.log('滚动到底部了');
+            console.log('到底了')
+        }
+    })
+</script>
+
+</html>
