@@ -5,7 +5,7 @@ import { floatMul } from './multiply'
  * @param b
  * @returns {Number}
  */
-function floatSub(a: number | string, b: number | string) {
+export function floatSub(a: number | string, b: number | string) {
   let c, d, e
   if (undefined == a || null == a || '' == a || isNaN(a as number)) {
     a = 0

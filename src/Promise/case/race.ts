@@ -15,7 +15,7 @@ function sleep(delay: number) {
 function request() {
   // 假设请求需要 1s
   return new Promise((resolve) => {
-    setTimeout(() => resolve('成功喽'), 1000)
+    setTimeout(() => resolve('成功喽'), 10001)
   })
 }
 
