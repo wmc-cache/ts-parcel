@@ -33,7 +33,7 @@ let data_proxy = new Proxy(data, {
 
 
 // 执行依赖函数
-effect() // 19
+effect() // 19  
 
 setTimeout(()=>{
   // 使用proxy进行代理后，使用代理后的对象名
