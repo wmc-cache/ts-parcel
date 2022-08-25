@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    .box {
+        display: flex;
+        flex-direction: column
+    }
+
+    .item1 {
+        flex-grow: 1;
+        background-color: royalblue;
+        width: 500px;
+
+    }
+
+    .item2 {
+        flex-grow: 1;
+        background-color: aqua;
+        width: 500px;
+    }
+</style>
+
+<body>
+    <div style="height:auto" class="box">
+        <div id="item1" class="item1">
+            <div>
+                坎坎坷坷坎坎坷坷坎坎坷坷坎坎坷坷坎坎坷坷坎坎坷坷坎坎坷坷坎坎坎坎坷坷坎坎坷坷坎坎坷坷坎坎坷坷坎坎坷坷坎坎坷坷坎坎坷坷坎坎坎坎坷坷坎坎坷坷坎坎坷坷坎坎坷坷坎坎坷坷坎坎坷坷坎坎坷坷坎坎坎坎坷坷坎坎坷坷坎坎坷坷坎坎坷坷坎坎坷坷坎坎坷坷坎坎坷坷坎坎
+            </div>
+        </div>
+        <div id="item2" class="item2">
+
+        </div>
+    </div>
+
+    <script>
+        item2.style.height = item1.getBoundingClientRect().height + 'px'
+    </script>
+</body>
+
+</html>
