@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    .box {
+        position: absolute;
+        width: 100px;
+        height: 100px;
+        background-color: beige;
+    }
+
+    .box::before {
+        content: '';
+        display: block;
+        border: 10px solid transparent;
+        width: 0;
+        height: 0;
+        position: absolute;
+    }
+    
+    .box.position-top::before {
+        left: 10px;
+        top: 100%;
+        border-bottom: none;
+        border-top-color: beige;
+    }
+</style>
+
+<body>
+    <div class="box position-top"></div>
+</body>
+
+</html>
