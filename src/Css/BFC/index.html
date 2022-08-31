@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>边距重叠测试</title>
+    <style>
+        .content-flex {
+            background-color: yellow;
+            display: flex;
+        }
+        .content {
+            background-color: yellow;
+        }
+        .box1,
+        .box2 {
+            padding: 0;
+            width: 100px;
+            height: 100px;
+            margin: 20px;
+            background-color: red;
+            color: #fff;
+        }
+        .content-hidden {
+            overflow: hidden;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 在CSS当中，相邻的两个盒子的上外边距会被结合成一个单独的外边距。这种合并外边距的方式就叫折叠 -->
+    <div class="content-flex">
+        <div class="box1">我是盒子一号</div>
+        <div class="box2">我是盒子二号</div>
+    </div>
+
+    <div class="content">
+        <div class="box1">我是盒子一号</div>
+        <div class="box2">我是盒子二号</div>
+    </div>
+
+    <div class="content">
+        <div class="content-hidden">
+            <div class="box1">我是盒子一号</div>
+        </div>
+        <div class="content-hidden">
+            <div class="box2">我是盒子二号</div>
+        </div>
+    </div>
+</body>
+
+</html>
