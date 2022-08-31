@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  你先记住这个顺序：先执行宏任务，再执行微任务，这就是一个循环。 因为整个JS代码就是一个宏任务。
+  当整个JS代码执行完毕后，也就是第一个宏任务执行完了，转而去执行微任务，把当前微任务队列中的所有微任务执行完，这样一次循环就结束了。
+  第二次事件循环，首先从宏任务队列拿出一个宏任务去执行，执行完毕再去微任务队列，将里面的所有微任务全部执行完（因为宏任务代码里面可能又创建了新的微任务）。
+  接下来的循环类似.... 即在一次循环中，宏任务执行一个，微任务执行一队。
+
+
+  <script> 
+    console.log(1)
+
+    setTimeout(function () {
+      console.log(2)
+    })
+
+    //Promise 构造函数中函数体的代码都是立即执行的
+    new Promise(function (resolve) {
+      console.log(3)
+      resolve()
+    }).then(function () {
+      console.log(4)
+    }).then(function () {
+      console.log(5)
+    })
+
+    console.log(6)
+
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /* animation-name: rainbow;
+    animation-duration: 1s;
+    animation-timing-function: linear;
+    animation-delay: 1s;
+    animation-fill-mode:forwards;
+    animation-direction: normal;
+    animation-iteration-count: 3; */
+
+        div:hover {
+            animation: 10s rainbow infinite;
+        }
+
+        @keyframes rainbow {
+            0% {
+                border-radius: 0;
+                width: 100px;
+                height: 100px;
+                background: #c00;
+            }
+            50% {
+                border-radius: 50%;
+                width: 120px;
+                height: 120px;
+                background: orange;
+            }
+            100% {
+                border-radius: 0;
+                width: 100px;
+                height: 100px;
+                background: yellowgreen;
+            }
+        }
+
+        div {
+            background-color: black;
+            width: 100px;
+            height: 100px;
+        }
+    </style>
+</head>
+
+<body>
+    <div></div>
+    <script>
+
+    </script>
+</body>
+
+</html>

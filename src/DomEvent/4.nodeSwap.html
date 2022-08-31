@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .item1 {
+      background-color: aliceblue;
+    }
+
+    .item2 {
+      background-color: rebeccapurple;
+    }
+
+    .item3 {
+      height: 200px;
+      background-color: red;
+    }
+
+    .item4 {
+      background-color: saddlebrown;
+    }
+  </style>
+</head>
+
+<body>
+  <div>
+    <div class="item1">1</div>
+    <div class="item2">2</div>
+  </div>
+
+  <div>
+    <div class="item3">3</div>
+    <div class="item4">4</div>
+  </div>
+
+  <button id="button">替换</button>
+  <script>
+    document.getElementById("button").addEventListener("click", () => {
+      swap(document.getElementsByClassName("item1")[0], document.getElementsByClassName("item3")[0])
+    })
+
+    function swap(node1, node3) {
+      //nextSibling 属性返回元素节点之后的兄弟节点（包括文本节点、注释节点）；
+      //nextElementSibling 属性只返回元素节点之后的兄弟元素节点（不包括文本节点、注释节点）；
+      const afterNode3 = node3.nextElementSibling;
+      //console.log(afterNode3)
+      const parent = node3.parentNode;
+      node1.replaceWith(node3);//node1被替换
+      //用提供的内容替换集合中所有匹配的元素并且返回被删除元素的集合
+      parent.insertBefore(node1, afterNode3);
+      //node.insertBefore(newnode, existingnode)
+      //newnode需要插入的节点对象。
+      //existingnode可选。在其之前插入新节点的子节点。
+      //如果未规定，则 insertBefore 方法会在结尾插入 newnode。
+    }
+  </script>
+</body>
+
+</html>

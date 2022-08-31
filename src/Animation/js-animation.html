@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="box" style="width: 200px;height: 200px;background: red;"></div>
+
+    <script>
+        // 获取元素对象
+        var box = document.getElementById("box");
+        box.animate(
+            [  //关键帧（数组包裹对象）
+               {
+                    borderRadius: 0,
+                    width: "100px",
+                    height: "100px",
+                    background: "#c00",
+                    transform: "translateX(100px) rotate(3600deg) scale(2)",
+                    offset: 0
+                },
+                {
+                    borderRadius: "50%",
+                    width: "120px",
+                    height: "120px",
+                    background: "#FFF",
+                    transform: "translateX(0px) rotate(0deg) scale(1)",
+                    offset: 0.9
+                },   // 第二帧
+                {
+                    borderRadius: 0,
+                    width: "100px",
+                    height: "100px",
+                    background: "#000",
+                    transform: "translateX(100px) rotate(360deg) scale(2)"
+                }, // 第三帧
+            ],
+            {
+                duration: 1000,  //  动画时长  (单位毫秒)
+                iterations: Infinity,  //  重复次数  （无限循环：Infinity）
+                fill: 'forwards',  //结束时不复位
+                delay: 0,   // 设置动画延迟时长 (单位毫秒)
+                easing: 'linear'  //设置动画 运动速率  (linear: 匀速)
+            },
+        ); 
+    </script>
+
+</body>
+
+</html>

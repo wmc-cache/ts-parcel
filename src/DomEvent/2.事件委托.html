@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div>
+      <p>w</p>
+      <p>m</p>
+      <p>c</p>
+      <p>1</p>
+      <p>2</p>
+      <p>3</p>
+      <p>4</p>
+    </div>
+  </body>
+  <script>
+    let div = document.getElementsByTagName("div")[0];
+    div.addEventListener("click", (event) => {
+      event.preventDefault();
+      console.log(event.target); //p
+      console.log(event.currentTarget); //div
+      if (event.target.nodeName === "P") {
+        alert(event.target.innerHTML);
+      }
+    });
+  </script>
+</html>
