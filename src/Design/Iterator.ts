@@ -13,6 +13,7 @@ class myIterator {
 }
 
 const myiterator = new myIterator([1, [1, 2, 3], 3])
+//const myiterator = [1, [1, 2, 3], 3]
 for (const item of myiterator) {
   console.log(item)
 }

@@ -1,8 +1,6 @@
 // 一个最简单的响应式
 // 在对象被读取时把函数收集到一个“仓库”，在对象的值被设置时触发仓库中的函数。
-// 定义一个“仓库”，用于存储触发函数
-// 定义一个对象
-let nextVal
+// let nextVal
 let data: any = {
   name: 'pino',
   age: 18,
@@ -10,8 +8,7 @@ let data: any = {
 function effect() {
   // 依赖函数在这里被收集
   // 当调用data.age时，effect函数被收集到“仓库”中
-  nextVal = data.age + 1
-  console.log(nextVal)
+  console.log(data.age)
 }
 let store = new Set<Function>()
 // 使用proxy进行代理
@@ -30,15 +27,10 @@ let data_proxy = new Proxy(data, {
     return true
   },
 })
-
-
-// 执行依赖函数
-effect() // 19  
-
 setTimeout(()=>{
   // 使用proxy进行代理后，使用代理后的对象名
   // 触发设置操作，此时会取出effect函数进行执行
-  data_proxy.age++ // 2秒后输出 20
+  data_proxy.age++ // 2秒后输出 19
 }, 2000)
 
 export {}

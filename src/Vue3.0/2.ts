@@ -1,9 +1,9 @@
 // 定义仓库
 let store = new WeakMap()
 // 定义当前处理的依赖函数
-let activeEffect:any
+let activeEffect: any
 
-function effect(fn:Function) {
+function effect(fn: Function) {
   // 将操作包装为一个函数
   const effectFn = () => {
     activeEffect = effectFn
@@ -12,7 +12,7 @@ function effect(fn:Function) {
   effectFn()
 }
 
-function reactive(obj:any) {
+function reactive(obj: any) {
   return new Proxy(obj, {
     get(target, key, receiver) {
       // 收集依赖
@@ -20,16 +20,17 @@ function reactive(obj:any) {
       return Reflect.get(target, key, receiver)
     },
     set(target, key, newVal, receiver) {
+      const result = Reflect.set(target, key, newVal, receiver)
       // 触发依赖
       trigger(target, key as string)
-      Reflect.set(target, key, newVal, receiver)
-      return true
+      //console.log('result',result, target)
+      return result
     },
   })
 }
 
 // 收集依赖
-function track(target:any, key:string) {
+function track(target: any, key: string) {
   // 如果没有依赖函数，则不需要进行收集。直接return
   if (!activeEffect) return
 
@@ -48,9 +49,8 @@ function track(target:any, key:string) {
   deps.add(activeEffect)
 }
 
-
 // 触发响应
-function trigger(target:any, key:string) {
+function trigger(target: any, key: string) {
   // 取出对象对应的Map
   let depsMap = store.get(target)
   if (!depsMap) return
@@ -61,11 +61,28 @@ function trigger(target:any, key:string) {
   let effectsToRun = new Set<Function>()
 
   effects &&
-    effects.forEach((effectFn:Function) => {
-      effectsToRun.add(effectFn)
+    effects.forEach((effectFn: Function) => {
+      if (effectFn !== activeEffect) {
+        effectsToRun.add(effectFn)
+      }
     })
-
   effectsToRun.forEach((effect) => effect())
 }
 
 
+// 测试数据
+let data: any = {
+  name: 'pino',
+  age: 18,
+}
+
+let data_proxy = reactive(data)
+
+effect(() => {
+  console.log('effect',data.age)
+})
+
+setInterval(() => {
+  data_proxy.age++
+}, 2000)
+export {}
