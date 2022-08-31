@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  层叠上下文是用来描述页面中元素在垂直于屏幕方向排列规则而创建出的模型。
+
+  层叠上下文中重叠的元素按照一定的规则在垂直方向排列。层叠上下文是 HTML 元素层级的一个子层级，因为只有一部分元素可以生成自己的层叠上下文。
+
+
+
+  1.是否是定位元素
+
+  对于未定位元素，按照在元素在 HTML 文档中出现的顺序决定，越后面的元素越会覆盖在上面；
+
+  先渲染未定位元素，再渲染定位元素
+
+
+
+
+  2.当一个元素被显示设置z-index值，不管是正数、负数还是 0，所有这个元素和它的所有后代元素形成一个层叠上下文。
+  层叠上下文的后代元素只参与和根元素的对比，不参与和根元素以外的元素对比。
+
+
+  3.在一个独立的层叠上下文中
+  z-index为正值的已定位元素（包括它们的子元素）
+  z-index为auto的已定位元素（包括它们的子元素）
+  未定位元素
+  z-index为负值的已定位元素（包括它们的子元素）
+  层叠上下文的根元素
+  
+  <script>
+
+  </script>
+
+</body>
+
+</html>
