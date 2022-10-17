@@ -1,3 +1,5 @@
+
+// WeakMap
 const wMap = new WeakMap()
 
 function link() {
