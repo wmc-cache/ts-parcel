@@ -1,30 +1,49 @@
+interface EffectFn {
+  deps?: Array<Set<Function>>;
+  options?: Options;
+}
+interface Options {
+  scheduler?: Function;
+  lazy?: Boolean;
+}
+
+//debugger
 // 定义仓库
-debugger
 let store = new WeakMap();
 // 定义当前处理的依赖函数
 let activeEffect: any;
 
 const effectStack: Array<any> = [];
 
-function effect(fn: Function) {
-  //debugger
+/**
+ *
+ * @param fn 副作用函数
+ */
+export function effect(fn: Function, options: Options = {}) {
   // 将操作包装为一个函数
   const effectFn: any = () => {
     cleanup(effectFn);
-     
+
     activeEffect = effectFn;
 
     effectStack.push(effectFn);
 
-    fn();
+    const result  = fn();
 
     effectStack.pop();
 
     activeEffect = effectStack[effectStack.length - 1];
+
+    return result
   };
+  effectFn.options = options;
   //用来存储所有与该副作用函数相关联的依赖集合
   effectFn.deps = [];
-  effectFn();
+  if (!options.lazy) {
+    effectFn();
+  } else {
+    return effectFn;
+  }
 }
 
 function reactive(obj: any) {
@@ -45,7 +64,6 @@ function reactive(obj: any) {
 
 // 收集依赖
 function track(target: any, key: string | symbol) {
-
   // 如果没有依赖函数，则不需要进行收集。直接return
   if (!activeEffect) return;
 
@@ -64,12 +82,10 @@ function track(target: any, key: string | symbol) {
   deps.add(activeEffect);
 
   activeEffect.deps.push(deps);
-
 }
 
 // 触发响应
 function trigger(target: any, key: string | symbol) {
-  
   // 取出对象对应的Map
   let depsMap = store.get(target);
   if (!depsMap) return;
@@ -79,9 +95,20 @@ function trigger(target: any, key: string | symbol) {
   // 创建一个新的Set来进行执行依赖函数
   let effectsToRun = new Set<Function>(effects);
 
-  effects
+  effects &&
+    effects.forEach((effectFn: any) => {
+      if (effectFn !== activeEffect) {
+        effectsToRun.add(effectFn);
+      }
+    });
 
-  effectsToRun.forEach((effect) => effect());
+  effectsToRun.forEach((effectFn: any) => {
+    if (effectFn?.options?.scheduler) {
+      effectFn.options.scheduler(effectFn);
+    } else {
+      effectFn();
+    }
+  });
 }
 
 function cleanup(effectFn: any) {
@@ -98,15 +125,16 @@ let data: any = {
   age: 18,
 };
 
-let data_proxy = reactive(data);
+export let data_proxy = reactive(data);
 
-effect(() => {
-  const num = data_proxy.age
-  console.log(num)
-});
+// effect(() => {
+//   const num = data_proxy.age;
+//   console.log(num);
+// });
 
 setTimeout(() => {
- 
   data_proxy.age++;
+  data_proxy.age = 333
 }, 2000);
+
 export {};
