@@ -28,13 +28,13 @@ export function effect(fn: Function, options: Options = {}) {
 
     effectStack.push(effectFn);
 
-    const result  = fn();
+    const result = fn();
 
     effectStack.pop();
 
     activeEffect = effectStack[effectStack.length - 1];
 
-    return result
+    return result;
   };
   effectFn.options = options;
   //用来存储所有与该副作用函数相关联的依赖集合
@@ -46,7 +46,7 @@ export function effect(fn: Function, options: Options = {}) {
   }
 }
 
-function reactive(obj: any) {
+export function reactive(obj: any) {
   return new Proxy(obj, {
     get(target, key, receiver) {
       // 收集依赖
@@ -118,23 +118,5 @@ function cleanup(effectFn: any) {
   }
   effectFn.deps.length = 0;
 }
-
-// 测试数据
-let data: any = {
-  name: "pino",
-  age: 18,
-};
-
-export let data_proxy = reactive(data);
-
-// effect(() => {
-//   const num = data_proxy.age;
-//   console.log(num);
-// });
-
-setTimeout(() => {
-  data_proxy.age++;
-  data_proxy.age = 333
-}, 2000);
 
 export {};
