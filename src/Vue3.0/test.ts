@@ -21,6 +21,8 @@ effect(() => {
 
 const add = computed(() => data_proxy.age + data_proxy.name);
 
+const double = computed(() => data_proxy.age * 2);
+
 watch(
   function getAge() {
     return data_proxy.age;
@@ -31,7 +33,14 @@ watch(
       expired = true;
     });
     if (!expired) {
-      console.log("watch", data_proxy, newValue, oldValue, add.value);
+      console.log(
+        "watch",
+        data_proxy,
+        newValue,
+        oldValue,
+        add.value,
+        double.value
+      );
     }
   },
   {
