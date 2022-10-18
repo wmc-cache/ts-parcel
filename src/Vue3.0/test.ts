@@ -1,6 +1,6 @@
 import VIEW from "./view";
 
-const { reactive, watch } = VIEW;
+const { reactive, watch, computed, effect } = VIEW;
 
 // 测试数据
 let data: any = {
@@ -15,6 +15,12 @@ setTimeout(() => {
   data_proxy.age = 333;
 }, 2000);
 
+effect(() => {
+  console.log(data_proxy.age);
+});
+
+const add = computed(() => data_proxy.age + data_proxy.name);
+
 watch(
   function getAge() {
     return data_proxy.age;
@@ -25,7 +31,7 @@ watch(
       expired = true;
     });
     if (!expired) {
-      console.log("watch", data_proxy, newValue, oldValue);
+      console.log("watch", data_proxy, newValue, oldValue, add.value);
     }
   },
   {

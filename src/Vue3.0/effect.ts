@@ -1,7 +1,3 @@
-interface EffectFn {
-  deps?: Array<Set<Function>>;
-  options?: Options;
-}
 interface Options {
   scheduler?: Function;
   lazy?: Boolean;
@@ -9,7 +5,7 @@ interface Options {
 
 //debugger
 // 定义仓库
-let store = new WeakMap();
+let store = new WeakMap(); //WeakMap经常用于key所引用的对象没有被回收才有价值的信息
 // 定义当前处理的依赖函数
 let activeEffect: any;
 
@@ -17,7 +13,7 @@ const effectStack: Array<any> = [];
 
 /**
  *
- * @param fn 副作用函数
+ * @param fn 副作用函数(原本)
  */
 export function effect(fn: Function, options: Options = {}) {
   // 将操作包装为一个函数
@@ -39,6 +35,7 @@ export function effect(fn: Function, options: Options = {}) {
   effectFn.options = options;
   //用来存储所有与该副作用函数相关联的依赖集合
   effectFn.deps = [];
+  
   if (!options.lazy) {
     effectFn();
   } else {
