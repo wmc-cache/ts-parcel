@@ -29,11 +29,4 @@ emitter.on('save', () => {
 })
 emitter.emit('save', 'aa', 'bb', 'cc')
 
-// vue watch
-watch: {
-  function date() {
-    // emitter.on('date', () => {
-    //   console.log('date')
-    // })
-  }
-}
+
