@@ -2,24 +2,25 @@
 // 必须把script放到body中 才有document.body
 function loadImage(url: string) {
   return new Promise((resolve, reject) => {
-    const img = document.createElement('img')
-    img.src = url
-    console.log(document)
-    document.body.append(img)
+    const img = document.createElement("img");
+    img.src = url;
+    console.log(document);
+    document.body.append(img);
     img.onload = () => {
-      resolve(img)
-    }
+      resolve(img);
+    };
     img.onerror = () => {
-      reject(new Error('Image not loaded'))
-    }
-  })
+      reject(new Error("Image not loaded"));
+    };
+  });
 }
 
-loadImage('https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png')
+loadImage("https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png")
   .then((img: any) => {
-    console.log('img', img.width)
-    return img
+    console.log("img", img.width);
+    return;
   })
-  .then((img) => {
-    console.log('img', img.height)
-  })
+  .then({} as any)
+  .then((res) => {
+    console.log(">>>>>>>",res);
+  });

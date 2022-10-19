@@ -123,7 +123,7 @@ parcelRequire = (function (modules, cache, entry, globalName) {
 
 function loadImage(url) {
   return new Promise(function (resolve, reject) {
-    var img = document.createElement('img');
+    var img = document.createElement("img");
     img.src = url;
     console.log(document);
     document.body.append(img);
@@ -133,16 +133,16 @@ function loadImage(url) {
     };
 
     img.onerror = function () {
-      reject(new Error('Image not loaded'));
+      reject(new Error("Image not loaded"));
     };
   });
 }
 
-loadImage('https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png').then(function (img) {
-  console.log('img', img.width);
-  return img;
-}).then(function (img) {
-  console.log('img', img.height);
+loadImage("https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png").then(function (img) {
+  console.log("img", img.width);
+  return;
+}).then({}).then(function (res) {
+  console.log(">>>>>>>", res);
 });
 },{}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
@@ -172,7 +172,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59913" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56368" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

@@ -30,10 +30,10 @@ class Axios implements AxiosType {
 
   run(config: any) {
     const chain: any = [
-      {
-        resolved: this,
-        rejected: undefined,
-      },
+      // {
+      //   resolved: this,
+      //   rejected: undefined,
+      // },
     ];
 
     // 把请求拦截器往数组头部推
@@ -53,6 +53,7 @@ class Axios implements AxiosType {
     // 利用promise.then的能力递归执行所有的拦截器
     while (chain.length) {
       const { resolved, rejected } = chain.shift();
+      console.log(typeof resolved, resolved, rejected);
       promise = promise.then(resolved, rejected);
     }
 
@@ -83,16 +84,19 @@ axios.useResponseInterceptor((resp: any) => {
   return { ...resp };
 });
 
-
 axios.useResponseInterceptor((resp: any) => {
   resp.message += "**响应拦截器2处理**";
   return { ...resp };
 });
 
-async function request() {
-  const result = await axios.run({
-    message: "原始发送信息",
-  });
+function request() {
+  const result = axios
+    .run({
+      message: "原始发送信息",
+    })
+    .then((res) => {
+      console.log(res);
+    });
   console.log("result: ", result);
 }
 
