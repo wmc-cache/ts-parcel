@@ -51,9 +51,14 @@ export function reactive(obj: any) {
       return Reflect.get(target, key, receiver);
     },
     set(target, key, newVal, receiver) {
+      const oldVal = target[key]
+
       const result = Reflect.set(target, key, newVal, receiver);
-      // 触发依赖
-      trigger(target, key);
+
+      if(oldVal!==newVal){
+        // 触发依赖
+        trigger(target, key);
+      }
       return result;
     },
   });
