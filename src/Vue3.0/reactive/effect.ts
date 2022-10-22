@@ -3,13 +3,12 @@ interface Options {
   lazy?: Boolean;
 }
 
-//debugger
 // 定义仓库
 let store = new WeakMap(); //WeakMap经常用于key所引用的对象没有被回收才有价值的信息
 // 定义当前处理的依赖函数
 let activeEffect: any;
 
-const effectStack: Array<any> = [];
+const effectStack: Array<Function> = [];
 
 /**
  *
