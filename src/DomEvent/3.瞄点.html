@@ -1,17 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-</head>
+  </head>
 
-<body>
+  <body>
     <a href="#wmc">wmc</a>
-    <div style="height:10000px"></div>
+    <div style="height: 10000px"></div>
     <div id="wmc">id-wmc</div>
-</body>
+    <div style="height: 10000px"></div>
+  </body>
 
+  <script>
+    setInterval(() => {
+      document.getElementById("wmc").scrollIntoView({behavior:"smooth",block:"center"});
+    }, 2000);
+  </script>
 </html>

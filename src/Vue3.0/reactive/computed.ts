@@ -1,4 +1,4 @@
-import { effect } from "./effect";
+import { effect, track, trigger } from "./effect";
 
 /**
  * 计算属性
@@ -13,7 +13,10 @@ export function computed(getter: Function) {
   const effectFn = effect(getter, {
     lazy: true,
     scheduler() {
-      dirty = true;
+      if (!dirty) {
+        dirty = true;
+        trigger(obj, "value");
+      }
     },
   });
 
@@ -23,14 +26,10 @@ export function computed(getter: Function) {
         value = effectFn();
         dirty = false;
       }
+      track(obj, "value");
       return value;
     },
   };
 
   return obj;
 }
-
-
-
-
-

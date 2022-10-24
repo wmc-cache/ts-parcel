@@ -6,42 +6,35 @@ const { reactive, watch, computed, effect } = VIEW;
 let data: any = {
   name: "pino",
   age: 18,
+  hidden: {
+    realAge: 88,
+  },
 };
 
 let data_proxy = reactive(data);
 
 setTimeout(() => {
-  data_proxy.age++;
-  data_proxy.age = 333;
+  data_proxy.hidden.realAge++
 }, 2000);
 
-effect(() => {
-  console.log(data_proxy.age);
-});
+// const add = computed(() => data_proxy.age + data_proxy.name);
 
-const add = computed(() => data_proxy.age + data_proxy.name);
+// effect(() => {
+//   console.log("add.value",add.value);
+// });
 
-const double = computed(() => data_proxy.age * 2);
 
 watch(
-  function getAge() {
-    return data_proxy.age;
-  },
+  () => data_proxy.hidden.realAge,
   (newValue: number, oldValue: number, onInvalidate: Function) => {
-    let expired = false;
-    onInvalidate(() => {
-      expired = true;
-    });
-    if (!expired) {
-      console.log(
-        "watch",
-        data_proxy,
-        newValue,
-        oldValue,
-        add.value,
-        double.value
-      );
-    }
+    // let expired = false;
+    // onInvalidate(() => {
+    //   expired = true;
+    // });
+    // if (!expired) {
+    //   console.log("watch", data_proxy, newValue, oldValue);
+    // }
+    console.log("watch", data_proxy, newValue, oldValue);
   },
   {
     immediate: true,

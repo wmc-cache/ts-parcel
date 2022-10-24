@@ -34,7 +34,7 @@ export function effect(fn: Function, options: Options = {}) {
   effectFn.options = options;
   //用来存储所有与该副作用函数相关联的依赖集合
   effectFn.deps = [];
-  
+
   if (!options.lazy) {
     effectFn();
   } else {
@@ -42,19 +42,26 @@ export function effect(fn: Function, options: Options = {}) {
   }
 }
 
-export function reactive(obj: any) {
+export function reactive(obj: any):any {
   return new Proxy(obj, {
     get(target, key, receiver) {
       // 收集依赖
       track(target, key);
-      return Reflect.get(target, key, receiver);
+
+      const result = Reflect.get(target, key, receiver);
+      
+      if(typeof result === 'object' && result !== null) {
+        return reactive(result)
+      }
+      return result;
     },
+
     set(target, key, newVal, receiver) {
-      const oldVal = target[key]
+      const oldVal = target[key];
 
       const result = Reflect.set(target, key, newVal, receiver);
 
-      if(oldVal!==newVal){
+      if (oldVal !== newVal) {
         // 触发依赖
         trigger(target, key);
       }
@@ -63,8 +70,13 @@ export function reactive(obj: any) {
   });
 }
 
-// 收集依赖
-function track(target: any, key: string | symbol) {
+/**
+ * 收集依赖
+ * @param target
+ * @param key
+ * @returns
+ */
+export function track(target: any, key: string | symbol) {
   // 如果没有依赖函数，则不需要进行收集。直接return
   if (!activeEffect) return;
 
@@ -85,16 +97,21 @@ function track(target: any, key: string | symbol) {
   activeEffect.deps.push(deps);
 }
 
-// 触发响应
-function trigger(target: any, key: string | symbol) {
+/**
+ * 触发响应
+ * @param target
+ * @param key
+ * @returns
+ */
+export function trigger(target: any, key: string | symbol) {
   // 取出对象对应的Map
   let depsMap = store.get(target);
   if (!depsMap) return;
   // 取出key所对应的Set
   const effects = depsMap.get(key);
 
-  // 创建一个新的Set来进行执行依赖函数
-  let effectsToRun = new Set<Function>(effects);
+  // 创建一个新的Set来进行执行依赖函数 避免无限循环
+  let effectsToRun = new Set<Function>();
 
   effects &&
     effects.forEach((effectFn: any) => {
