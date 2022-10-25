@@ -44,7 +44,7 @@ export function effect(fn: Function, options: Options = {}) {
   }
 }
 
-export function reactive(obj: any): any {
+export function reactive(obj: any, isShallow = false): any {
   return new Proxy(obj, {
     get(target, key, receiver) {
       // 收集依赖
@@ -52,6 +52,10 @@ export function reactive(obj: any): any {
       track(target, key);
 
       const result = Reflect.get(target, key, receiver);
+
+      if (isShallow) {
+        return result;
+      }
 
       if (typeof result === "object" && result !== null) {
         return reactive(result);

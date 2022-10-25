@@ -46,8 +46,8 @@ export function changeTimeFormat(time: number) {
 }
 
 export function hourToDay(value: number) {
-  const day = value / 24;
+  const day = Math.floor(value / 24);
   const hour = value % 24;
-  console.log(day,hour);
+  console.log(day, hour);
 }
-hourToDay(1440);
+hourToDay(1400);

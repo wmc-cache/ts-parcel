@@ -13,15 +13,16 @@ let data: any = {
 
 let data_proxy = reactive(data);
 
+const add = computed(() => data_proxy.age + data_proxy.name);
+
 effect(() => {
-  console.log(data_proxy.name)
+  //debugger;
+  console.log("add", add.value);
 });
 
 setTimeout(() => {
-  data_proxy.name = 'wmc'
+  data_proxy.age;
 }, 2000);
-
-// const add = computed(() => data_proxy.age + data_proxy.name);
 
 // watch(
 //   () => data_proxy.hidden.realAge,
@@ -39,14 +40,3 @@ setTimeout(() => {
 //     immediate: true,
 //   }
 // );
-
-
-
-
-
-
-
-
-
-
-
