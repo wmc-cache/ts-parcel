@@ -10,6 +10,8 @@ let activeEffect: any;
 
 const effectStack: Array<Function> = [];
 
+const ITERATE_KEY = Symbol();
+
 /**
  *
  * @param fn 副作用函数(原本)
@@ -42,28 +44,56 @@ export function effect(fn: Function, options: Options = {}) {
   }
 }
 
-export function reactive(obj: any):any {
+export function reactive(obj: any): any {
   return new Proxy(obj, {
     get(target, key, receiver) {
       // 收集依赖
+      console.log("get>>>>>");
       track(target, key);
 
       const result = Reflect.get(target, key, receiver);
-      
-      if(typeof result === 'object' && result !== null) {
-        return reactive(result)
+
+      if (typeof result === "object" && result !== null) {
+        return reactive(result);
       }
       return result;
     },
+    has(target, key) {
+      console.log("has>>>>>");
+      // 收集依赖
+      track(target, key);
 
+      return Reflect.has(target, key);
+    },
+    ownKeys(target) {
+      console.log("ownKeys>>>>>");
+      // 收集依赖
+      track(target, ITERATE_KEY);
+
+      return Reflect.ownKeys(target);
+    },
+    deleteProperty(target, key) {
+      console.log("delete>>>>>");
+      const hadKey = Object.prototype.hasOwnProperty.call(target, key);
+      const result = Reflect.deleteProperty(target, key);
+      if (hadKey && result) {
+        trigger(target, key, "DELETE");
+      }
+      return result;
+    },
     set(target, key, newVal, receiver) {
+      console.log("set>>>>>");
+      const type = Object.prototype.hasOwnProperty.call(target, key)
+        ? "SET"
+        : "ADD";
+
       const oldVal = target[key];
 
       const result = Reflect.set(target, key, newVal, receiver);
 
       if (oldVal !== newVal) {
         // 触发依赖
-        trigger(target, key);
+        trigger(target, key, type);
       }
       return result;
     },
@@ -103,7 +133,7 @@ export function track(target: any, key: string | symbol) {
  * @param key
  * @returns
  */
-export function trigger(target: any, key: string | symbol) {
+export function trigger(target: any, key: string | symbol, type = "") {
   // 取出对象对应的Map
   let depsMap = store.get(target);
   if (!depsMap) return;
@@ -119,7 +149,15 @@ export function trigger(target: any, key: string | symbol) {
         effectsToRun.add(effectFn);
       }
     });
-
+  if (type === "ADD" || type === "DELETE") {
+    const iterateEffects = depsMap.get(ITERATE_KEY);
+    iterateEffects &&
+      iterateEffects.forEach((effectFn: any) => {
+        if (effectFn !== activeEffect) {
+          effectsToRun.add(effectFn);
+        }
+      });
+  }
   effectsToRun.forEach((effectFn: any) => {
     if (effectFn?.options?.scheduler) {
       effectFn.options.scheduler(effectFn);
