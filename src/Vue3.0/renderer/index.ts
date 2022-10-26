@@ -16,7 +16,13 @@ function createRenderer(options: any) {
     container._vnode = vnode;
   }
 
-  function patch(n1: Object, n2: Object, container: Object) {
+  /**
+   *
+   * @param n1 旧vnode
+   * @param n2 新vnode
+   * @param container 容器
+   */
+  function patch(n1: Object | null, n2: Object, container: Object) {
     if (!n1) {
       mountElement(n2, container);
     } else {
@@ -31,6 +37,12 @@ function createRenderer(options: any) {
       // 因此只需要设置元素的 textContent 属性即可
       setElementText(el, vnode.children);
     }
+    if (Array.isArray(vnode.children)) {
+      vnode.children.forEach((child: any) => {
+        patch(null, child, el);
+      });
+    }
+    //console.log(el, container);
     // 将元素添加到容器中
     insert(el, container);
   }
@@ -42,19 +54,20 @@ function createRenderer(options: any) {
 
 // 在创建 renderer 时传入配置项
 const renderer = createRenderer({
-    // 用于创建元素
-    createElement(tag: string) {
-      return document.createElement(tag);
-    },
-    // 用于设置元素的文本节点
-    setElementText(el: any, text: string) {
-      el.textContent = text;
-    },
-    // 用于在给定的 parent 下添加指定元素
-    insert(el: any, parent: any, anchor = null) {
-      parent.insertBefore(el, anchor);
-    },
-  });
+  // 用于创建元素
+  createElement(tag: string) {
+    return document.createElement(tag);
+  },
+  // 用于设置元素的文本节点
+  setElementText(el: any, text: string) {
+    el.textContent = text;
+  },
+  // 用于在给定的 parent 下添加指定元素
+  insert(el: any, parent: any, anchor = null) {
+    const dom = document.getElementById(parent.type);
+    dom && dom.insertBefore(el, anchor);
+  },
+});
 
 const vnode = {
   type: "h1",
@@ -62,6 +75,5 @@ const vnode = {
 };
 // 使用一个对象模拟挂载点
 const container = { type: "root" };
+
 renderer.render(vnode, container);
-
-
