@@ -1,3 +1,6 @@
+import VIEW from "../reactive/view";
+const { effect, reactive } = VIEW;
+
 function createRenderer(options: any) {
   const { createElement, insert, setElementText } = options;
 
@@ -26,12 +29,32 @@ function createRenderer(options: any) {
     if (!n1) {
       mountElement(n2, container);
     } else {
+      mountElement(n2, container);
     }
   }
 
   function mountElement(vnode: any, container: any) {
     // 创建 DOM 元素
     const el = createElement(vnode.type);
+    if (vnode.props) {
+      for (const key in vnode.props) {
+        // 用 in 操作符判断 key 是否存在对应的 DOM Properties
+        if (key in el) {
+          // 获取该 DOM Properties 的类型
+          const type = typeof el[key];
+          const value = vnode.props[key];
+          // 如果是布尔类型，并且 value 是空字符串，则将值矫正为 true
+          if (type === "boolean" && value === "") {
+            el[key] = true;
+          } else {
+            el[key] = value;
+          }
+        } else {
+          // 如果要设置的属性没有对应的 DOM Properties，则使用 setAttribute 函数设置属性
+          el.setAttribute(key, vnode.props[key]);
+        }
+      }
+    }
     // 处理子节点，如果子节点是字符串，代表元素具有文本节点
     if (typeof vnode.children === "string") {
       // 因此只需要设置元素的 textContent 属性即可
@@ -69,11 +92,21 @@ const renderer = createRenderer({
   },
 });
 
-const vnode = {
+const vnode = reactive({
   type: "h1",
   children: "hello",
-};
-// 使用一个对象模拟挂载点
-const container = { type: "root" };
+});
 
-renderer.render(vnode, container);
+// 使用一个对象模拟挂载点
+// const container = { type: "root" };
+
+// renderer.render(vnode,container)
+
+debugger;
+effect(function vonde() {
+  console.log(vnode.children);
+});
+
+setInterval(() => {
+  vnode.children+= "/";
+}, 2000);

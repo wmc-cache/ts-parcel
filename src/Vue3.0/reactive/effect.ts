@@ -28,7 +28,8 @@ export function effect(fn: Function, options: Options = {}) {
     const result = fn();
 
     effectStack.pop();
-
+    
+    //if (effectStack.length > 1)
     activeEffect = effectStack[effectStack.length - 1];
 
     return result;
