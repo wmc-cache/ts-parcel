@@ -98,15 +98,22 @@ const vnode = reactive({
 });
 
 // 使用一个对象模拟挂载点
-// const container = { type: "root" };
+ const container = { type: "root" };
 
-// renderer.render(vnode,container)
+ 
+effect(()=>renderer.render(vnode,container))
 
-debugger;
-effect(function vonde() {
-  console.log(vnode.children);
-});
+// debugger;
+// effect(function vonde() {
+//   console.log(vnode.children);
+// });
 
 setInterval(() => {
   vnode.children+= "/";
 }, 2000);
+
+
+
+
+
+
