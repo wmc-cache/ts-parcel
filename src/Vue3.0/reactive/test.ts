@@ -16,12 +16,11 @@ let data_proxy = reactive(data);
 const add = computed(() => data_proxy.age + data_proxy.name);
 
 effect(() => {
-  //debugger;
   console.log("add", add.value);
 });
 
 setTimeout(() => {
-  data_proxy.age;
+  data_proxy.age++;
 }, 2000);
 
 // watch(
