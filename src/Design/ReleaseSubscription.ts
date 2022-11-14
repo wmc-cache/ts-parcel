@@ -4,7 +4,7 @@ interface saveFunctionObiect {
 
 class EventEmitter {
   private events: saveFunctionObiect = {}
-  on(name: string, fn?: Function) {
+  on(name: string, fn: Function) {
     this.events[name] = this.events[name] || []
     if (fn) this.events[name].push(fn)
   }
@@ -20,13 +20,20 @@ class EventEmitter {
 }
 
 const emitter = new EventEmitter()
+
+
+
 emitter.on('save', (a: any, b: any, c: any) => {
   console.log('save')
   console.log(a, b, c)
 })
+
+
 emitter.on('save', () => {
   console.log('save2')
 })
+
+
 emitter.emit('save', 'aa', 'bb', 'cc')
 
 
