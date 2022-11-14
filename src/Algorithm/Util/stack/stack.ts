@@ -54,7 +54,8 @@ export class Stack {
 }
 
 
-const stack = new Stack([]);
+const stack = new Stack([423, 42, 42, 424, 4234234]);
+
 stack.push(5)
 
 console.log(stack.toString());
