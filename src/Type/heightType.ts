@@ -70,8 +70,8 @@ type D = IsNumber<'3'> // no
 type TypeName<T> = T extends string
   ? "string"
   : T extends boolean
-      ? "boolean"
-      : "object";
+  ? "boolean"
+  : "object";
 
 type T0 = TypeName<string>; // "string"
 type T1 = TypeName<"a">; // "string"
@@ -80,7 +80,9 @@ type T2 = TypeName<true>; // "boolean"
 /**
  * (它一定是出现在条件类型中的) infer
  */
+type returnType<T> = T extends (...args: any[]) => infer R ? R : unknown;
 
 
+type add = returnType<() => Number>;
 
-export {}
+export { }
