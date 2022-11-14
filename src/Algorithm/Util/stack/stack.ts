@@ -1,3 +1,6 @@
+
+// 在使用数组时，大部分方法的时间复杂度是O(n)
+// 而使用对象时，大部分方法的时间复杂度是O(1)
 export class Stack {
 
     private count = 0
