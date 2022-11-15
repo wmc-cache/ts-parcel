@@ -1,4 +1,4 @@
-var toString = Object.prototype.toString;
+const toString = Object.prototype.toString;
 
 function isFunction(obj: any) {
   return toString.call(obj) === "[object Function]";

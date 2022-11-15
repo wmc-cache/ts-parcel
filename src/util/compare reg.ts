@@ -14,4 +14,4 @@ export function compare(target: string, str: string, ignore: boolean = false) {
   });
   return position;
 }
-console.log(compare("tttAta", "a"));
+console.log(compare("tttAta", "At"));
