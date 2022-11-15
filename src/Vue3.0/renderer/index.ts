@@ -92,7 +92,7 @@ const renderer = createRenderer({
   },
 });
 
-const vnode = reactive({
+let vnode = reactive({
   type: "h1",
   children: "hello",
 });
@@ -101,16 +101,16 @@ const vnode = reactive({
 const container = { type: "root" };
 
 
-effect(() => renderer.render(vnode, container))
+//effect(() => renderer.render(vnode, container))
 
-// debugger;
-// effect(function vonde() {
-//   console.log(vnode);
-// });
+debugger
+effect(() => {
+  console.log(vnode.type)
+});
 
-// setInterval(() => {
-//   vnode.children += "/";
-// }, 2000);
+setInterval(() => {
+  vnode.children += "/";
+}, 2000);
 
 
 
