@@ -1,36 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <style>
-      body {
-        --bg-color: red;
-      }
-      div {
-        background-color: var(--bg-color);
-        width: 100px;
-        height: 100px;
-      }
-    </style>
-  </head>
 
-  <body>
-    DOM对象一员，极大便利CSS与JS间的联系
-    <div></div>
-    <button id="red-theme-bt">切换红色主题</button>
-    <button id="blue-theme-bt">切换蓝色主题</button>
-    <button id="green-theme-bt">切换绿色主题</button>
-    <script>
-      debugger
-      ["red", "blue", "green"].forEach((v) => {
-        const btn = document.getElementById(`${v}-theme-bt`);
-        btn.addEventListener("click", () => {
-          document.body.style.setProperty("--bg-color", v);
-        });
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+  <style>
+    body {
+      --bg-color: red;
+    }
+
+    div {
+      background-color: var(--bg-color);
+      width: 100px;
+      height: 100px;
+    }
+  </style>
+</head>
+
+<body>
+  DOM对象一员，极大便利CSS与JS间的联系
+  <div></div>
+  <button id="red-theme-bt">切换红色主题</button>
+  <button id="blue-theme-bt">切换蓝色主题</button>
+  <button id="green-theme-bt">切换绿色主题</button>
+  <script>
+    //debugger
+    ["red", "blue", "green"].forEach((v) => {
+      const btn = document.getElementById(`${v}-theme-bt`);
+      btn.addEventListener("click", () => {
+        document.body.style.setProperty("--bg-color", v);
       });
-    </script>
-  </body>
+    });
+  </script>
+</body>
+
 </html>

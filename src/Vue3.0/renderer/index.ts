@@ -103,7 +103,7 @@ const container = { type: "root" };
 
 //effect(() => renderer.render(vnode, container))
 
-debugger
+debugger;
 effect(() => {
   console.log(vnode.type)
 });
