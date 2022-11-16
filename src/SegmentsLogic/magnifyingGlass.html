@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .main {
+            position: relative;
+        }
+
+        .min {
+            position: absolute;
+            left: 200px;
+            top: 100px;
+            cursor: move;
+        }
+
+        .mask {
+            width: 200px;
+            height: 200px;
+            position: absolute;
+            background-color: yellowgreen;
+            top: 0;
+            left: 0;
+            opacity: 0.5;
+            display: none;
+        }
+
+        .max {
+            position: absolute;
+            left: 650px;
+            width: 500px;
+            height: 500px;
+            overflow: hidden;
+            display: none;
+            top: 100px;
+        }
+
+        .max img {
+            position: absolute;
+
+
+        }
+    </style>
+</head>
+
+<body>
+    <div class="'main">
+        <div class="min">
+            <img src="background.gif">
+            <div class="mask">
+
+            </div>
+        </div>
+        <div class="max">
+            <img src="background.gif">
+        </div>
+    </div>
+
+    <script>
+        var min = document.querySelector(".min")
+        var max = document.querySelector(".max")
+        var mask = document.querySelector(".mask")
+        var img = document.querySelectorAll("img")
+        min.addEventListener("mouseover", function () {
+            mask.style.display = "block"
+            max.style.display = "block"
+            min.addEventListener("mousemove", function (e) {
+
+                mask.style.left = e.pageX - min.offsetLeft - mask.offsetWidth / 2 + "px"
+                mask.style.top = e.pageY - min.offsetTop - mask.offsetHeight / 2 + "px"
+                img[1].style.left = -(e.pageX - min.offsetLeft - mask.offsetWidth / 2) * (img[1].offsetWidth - max.offsetWidth) / (min.offsetWidth - mask.offsetWidth) + "px"
+                img[1].style.top = -(e.pageY - min.offsetTop - mask.offsetHeight / 2) * (img[1].offsetHeight - max.offsetHeight) / (min.offsetHeight - mask.offsetHeight) + "px"
+                if (mask.offsetLeft <= 0) {
+                    mask.style.left = "0px"
+                } else if (mask.offsetLeft > (min.offsetWidth - mask.offsetWidth)) {
+                    mask.style.left = min.offsetWidth - mask.offsetWidth + "px"
+                }
+                if (mask.offsetTop < 0) {
+                    mask.style.top = "0px"
+                } else if (mask.offsetTop >= (min.offsetHeight - mask.offsetHeight)) {
+                    mask.style.top = min.offsetHeight - mask.offsetHeight + "px"
+                }
+
+            })
+        })
+        min.addEventListener("mouseout", function () {
+            mask.style.display = "none"
+            max.style.display = "none"
+        })
+
+
+    </script>
+</body>
+
+</html>
