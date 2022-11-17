@@ -85,4 +85,20 @@ type returnType<T> = T extends (...args: any[]) => infer R ? R : unknown;
 
 type add = returnType<() => Number>;
 
+
+/**
+ *  映射类型
+ */
+interface item {
+  readonly name: string
+  readonly sex: string
+}
+
+
+type reduceReadonly<T> = {
+  -readonly [Property in keyof T]: T[Property]
+}
+
+type newItem = reduceReadonly<item>
+
 export { }
