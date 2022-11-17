@@ -90,15 +90,14 @@ type add = returnType<() => Number>;
  *  映射类型
  */
 interface item {
-  readonly name: string
-  readonly sex: string
+  name: string
+  sex: string
 }
 
-
-type reduceReadonly<T> = {
-  -readonly [Property in keyof T]: T[Property]
+type addReadonly<T> = {
+  + readonly [Property in keyof T]: T[Property]
 }
+type newItem = addReadonly<item>
 
-type newItem = reduceReadonly<item>
 
 export { }
