@@ -2,7 +2,7 @@
 
 
 //类装饰器
-function log<T extends { new (...arg: any): any }>(FA: T) {
+function log<T extends { new(...arg: any): any }>(FA: T) {
   class coding extends FA {
     constructor(...args: any) {
       super(...args)

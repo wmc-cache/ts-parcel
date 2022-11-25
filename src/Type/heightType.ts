@@ -95,7 +95,7 @@ interface item {
 }
 
 type addReadonly<T> = {
-  + readonly [Property in keyof T]: T[Property]
+  + readonly [Property in keyof T as Exclude<Property, 'name'>]: T[Property]
 }
 type newItem = addReadonly<item>
 
