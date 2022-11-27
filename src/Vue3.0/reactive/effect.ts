@@ -3,10 +3,17 @@ interface Options {
   lazy?: Boolean;
 }
 
+interface EffectFunType {
+  (): void
+  options: Options
+  deps: []
+}
+
+
 // 定义仓库
 let store = new WeakMap(); //WeakMap经常用于key所引用的对象没有被回收才有价值的信息
 // 定义当前处理的依赖函数
-let activeEffect: any;
+let activeEffect: any; //当前的副作用函数
 
 const effectStack: Array<Function> = [];
 
@@ -18,7 +25,7 @@ const ITERATE_KEY = Symbol();
  */
 export function effect(fn: Function, options: Options = {}) {
   // 将操作包装为一个函数
-  const effectFn: any = () => {
+  const effectFn: EffectFunType = () => {
     cleanup(effectFn);
 
     activeEffect = effectFn;
@@ -28,7 +35,7 @@ export function effect(fn: Function, options: Options = {}) {
     const result = fn();
 
     effectStack.pop();
-    
+
     //if (effectStack.length > 1)
     activeEffect = effectStack[effectStack.length - 1];
 
@@ -180,4 +187,4 @@ function cleanup(effectFn: any) {
   effectFn.deps.length = 0;
 }
 
-export {};
+export { };
