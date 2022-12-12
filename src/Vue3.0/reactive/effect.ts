@@ -52,7 +52,7 @@ export function effect(fn: Function, options: Options = {}) {
   }
 }
 
-export function reactive(obj: any, isShallow = false): any {
+export function reactive(obj: any, isShallow = false): boolean {
   return new Proxy(obj, {
     get(target, key, receiver) {
       // 收集依赖

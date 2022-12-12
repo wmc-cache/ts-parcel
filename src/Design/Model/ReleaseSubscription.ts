@@ -1,9 +1,9 @@
-interface saveFunctionObiect {
+interface saveEventObiect {
   [key: string]: Function[]
 }
 
 class EventEmitter {
-  private events: saveFunctionObiect = {}
+  private events: saveEventObiect = {}
   on(name: string, fn: Function) {
     this.events[name] = this.events[name] || []
     if (fn) this.events[name].push(fn)
