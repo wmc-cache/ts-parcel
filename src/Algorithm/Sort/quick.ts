@@ -1,8 +1,17 @@
+
+
+
+
 export function quickSort(arr: number[]): number[] {
+
   if (arr.length <= 1) return arr
+
   let mid = Math.floor(arr.length / 2)
+
   let left: number[] = []
+
   let right: number[] = []
+
   arr.forEach((ele, index) => {
     if (index !== mid) {
       if (ele <= arr[mid]) {

@@ -5,11 +5,7 @@ export function myInstanceof(obj: any, Fn: new () => any): boolean {
     return false
   }
 }
-console.log(myInstanceof({}, Function))
-
-console.log([] instanceof Array)
-console.log({} instanceof Object)
 
 
-console.log({} instanceof Array)
-console.log([] instanceof Object)
+console.log(myInstanceof(() => { }, Function))
+

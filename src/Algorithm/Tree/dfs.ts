@@ -16,6 +16,19 @@ function dfs(tree: TreeNode) {
   if (tree.children) tree.children.forEach((child) => dfs(child))
 }
 
-dfs(tree)
+dfs2(tree)
 
-export {}
+
+
+function dfs2(tree: TreeNode) {
+  const arr = [tree]
+  while (arr.length > 0) {
+    const currentNode = arr.shift()
+    console.log(currentNode?.value)
+    if (currentNode?.children)
+      arr.unshift(...currentNode?.children)
+    console.log(arr)
+  }
+}
+
+export { }

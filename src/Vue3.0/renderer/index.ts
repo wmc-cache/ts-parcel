@@ -4,20 +4,23 @@ const { effect, reactive } = VIEW;
 function createRenderer(options: any) {
   const { createElement, insert, setElementText } = options;
 
-  function render(vnode: Object, container: any) {
+  function render(vnode: any, container: any) {
     if (vnode) {
       // 新 vnode 存在，将其与旧 vnode 一起传递给 patch 函数，进行打补丁
       patch(container._vnode, vnode, container);
+
     } else {
       if (container._vnode) {
         // 旧 vnode 存在，且新 vnode 不存在，说明是卸载（unmount）操作
         // 只需要将 container 内的 DOM 清空即可
-        container.innerHTML = "";
+        // container.innerHTML = "";
+        unmounted(container._vnode)
       }
     }
     // 把 vnode 存储到 container._vnode 下，即后续渲染中的旧 vnode
     container._vnode = vnode;
   }
+
 
   /**
    *
@@ -25,12 +28,28 @@ function createRenderer(options: any) {
    * @param n2 新vnode
    * @param container 容器
    */
-  function patch(n1: Object | null, n2: Object, container: Object) {
-    if (!n1) {
-      mountElement(n2, container);
-    } else {
-      mountElement(n2, container);
+  function patch(n1: any, n2: any, container: any) {
+
+    if (n1 && n1.type !== n2.type) {
+      // 如果新旧 vnode 的类型不同，则直接将旧 vnode 卸载
+      unmounted(n1)
+      n1 = null
+
     }
+    const { type } = n2
+
+    if (typeof type === 'string') {
+      if (!n1) {
+        mountElement(n2, container);
+      } else {
+        // 更新 diff
+        mountElement(n2, container);
+      }
+    } else if (typeof type === 'object') {
+      // 如果 n2.type 的值的类型是对象，则它描述的是组件
+
+    }
+
   }
 
   function mountElement(vnode: any, container: any) {
@@ -65,16 +84,31 @@ function createRenderer(options: any) {
         patch(null, child, el);
       });
     }
-    //console.log(el, container);
     // 将元素添加到容器中
     insert(el, container);
   }
 
+  function unmounted(vnode: any) {
+    const el = vnode.el
+    // 获取 el 的父元素
+    const parent = el.parentNode
+    // 调用 removeChild 移除元素
+    if (parent) parent.removeChild(el)
+  }
   return {
     render,
   };
 }
 
+
+
+
+
+
+
+
+
+// 测试代码
 // 在创建 renderer 时传入配置项
 const renderer = createRenderer({
   // 用于创建元素
@@ -101,7 +135,7 @@ let vnode = reactive({
 const container = { type: "root" };
 
 
-//effect(() => renderer.render(vnode, container))
+effect(() => renderer.render(vnode, container))
 
 effect(() => {
   console.log(vnode.type)

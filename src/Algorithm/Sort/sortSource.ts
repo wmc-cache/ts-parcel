@@ -59,4 +59,5 @@ function sort(data: any[], type = 'asc') {
 }
 
 console.log('result', sort(data))
-export {}
+
+export { }

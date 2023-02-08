@@ -6,7 +6,7 @@ class CancelablePromise {
   private reject: Function
   constructor() {
     this.pendingPromise = null
-    this.reject = () => {}
+    this.reject = () => { }
   }
 
   request(requestFn: Function) {
@@ -43,3 +43,5 @@ for (let i = 0; i < 5; i++) {
     .then((res: any) => console.log(res)) // 最后一个 最后赢家是我
     .catch((err: any) => console.error(err)) // 前四个 取消重复请求
 }
+
+export { }
