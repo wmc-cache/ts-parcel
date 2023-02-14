@@ -9,6 +9,9 @@ function calculate(n: number): number {
     calculateArray[n] = calculate(n - 1) + calculate(n - 2)
   return calculateArray[n]
 }
+
+
+
 // 动态规划
 function calculate2(n: number): number {
   calculateArray2[0] = 0

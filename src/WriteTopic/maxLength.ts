@@ -18,8 +18,9 @@ export function maxLength(str: string) {
     for (let i = 0; i < result.length - 1; i++) {
         interval.push(result[i + 1] - result[i])
     }
+    return Math.max(...interval)
 
-    console.log(result, interval, Math.max(...interval))
 }
 
-maxLength('nndassa')
+
+console.log(maxLength("abcabcbb"))

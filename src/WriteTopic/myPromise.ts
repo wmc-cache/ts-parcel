@@ -18,8 +18,25 @@ export class MyPromise {
     RejectArray: RejectType[] = []
 
 
-    static all = (arr: any) => {
-        console.log(arr)
+    static all = (arr: MyPromise[]) => {
+        let total = 0
+        let result: any[] = []
+        const p = new MyPromise((resolve, reject) => {
+            for (let i = 0; i < arr.length; i++) {
+                arr[i].then(
+                    (value) => {
+                        result.push(value)
+                        total++
+                        if (total === arr.length) {
+                            resolve(result)
+                        }
+                    }, (error) => {
+                        reject(error)
+                    }
+                )
+            }
+        })
+        return p
     }
 
     constructor(Fn: Executor) {
@@ -102,19 +119,20 @@ export class MyPromise {
 
 const p = new MyPromise((resolve, reject) => {
     setTimeout(() => {
-        resolve('vue3')
+        reject('vue1')
     }, 1000)
 })
 
-//console.log(p)
+const p2 = new MyPromise((resolve, reject) => {
+    setTimeout(() => {
+        resolve('vue3')
+    }, 3000)
+})
 
-p.then((value) => {
+
+
+
+MyPromise.all([p, p2]).then((value) => {
     console.log(value)
-    return value
-}, () => { }).then((value) => {
-    console.log(value)
-}, () => { })
-
-
-MyPromise.all([1, 2, 3])
+}, (err) => { console.log(err) })
 

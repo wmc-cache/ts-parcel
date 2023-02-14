@@ -1,5 +1,3 @@
-// 1.大整数相加
-
 export function add(a: String, b: String) {
     let num1 = a
 
