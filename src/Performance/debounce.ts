@@ -18,4 +18,5 @@ const newLog = debounce(log, 2000)
 
 setInterval(() => {
   newLog()
-}, 3000)
+}, 1000)
+
