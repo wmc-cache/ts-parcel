@@ -1,3 +1,9 @@
+interface Common {
+  [key: string]: string
+}
+
+
+
 /**
  *  Record 用法
  */
