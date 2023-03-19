@@ -2,6 +2,7 @@ import VIEW from "../reactive/view";
 const { effect, reactive } = VIEW;
 
 function createRenderer(options: any) {
+
   const { createElement, insert, setElementText } = options;
 
   function render(vnode: any, container: any) {
@@ -36,6 +37,7 @@ function createRenderer(options: any) {
       n1 = null
 
     }
+
     const { type } = n2
 
     if (typeof type === 'string') {
@@ -43,6 +45,9 @@ function createRenderer(options: any) {
         mountElement(n2, container);
       } else {
         // 更新 diff
+        //@ts-ignore
+        document.getElementById("root").innerHTML = ''
+
         mountElement(n2, container);
       }
     } else if (typeof type === 'object') {
@@ -54,7 +59,8 @@ function createRenderer(options: any) {
 
   function mountElement(vnode: any, container: any) {
     // 创建 DOM 元素
-    const el = createElement(vnode.type);
+    const el = vnode.el = createElement(vnode.type);
+
     if (vnode.props) {
       for (const key in vnode.props) {
         // 用 in 操作符判断 key 是否存在对应的 DOM Properties
@@ -79,6 +85,7 @@ function createRenderer(options: any) {
       // 因此只需要设置元素的 textContent 属性即可
       setElementText(el, vnode.children);
     }
+
     if (Array.isArray(vnode.children)) {
       vnode.children.forEach((child: any) => {
         patch(null, child, el);
@@ -89,12 +96,16 @@ function createRenderer(options: any) {
   }
 
   function unmounted(vnode: any) {
+
     const el = vnode.el
     // 获取 el 的父元素
     const parent = el.parentNode
     // 调用 removeChild 移除元素
     if (parent) parent.removeChild(el)
   }
+
+
+
   return {
     render,
   };
@@ -126,10 +137,13 @@ const renderer = createRenderer({
   },
 });
 
+
+
+
 let vnode = reactive({
   type: "h1",
   children: "hello",
-});
+})
 
 // 使用一个对象模拟挂载点
 const container = { type: "root" };
@@ -137,9 +151,6 @@ const container = { type: "root" };
 
 effect(() => renderer.render(vnode, container))
 
-effect(() => {
-  console.log(vnode.type)
-});
 
 setInterval(() => {
   vnode.children += "/";

@@ -179,6 +179,8 @@ export function trigger(target: any, key: string | symbol, type = "") {
   });
 }
 
+
+
 function cleanup(effectFn: any) {
   for (let i = 0; i < effectFn.deps.length; i++) {
     const deps = effectFn.deps[i];
@@ -186,5 +188,6 @@ function cleanup(effectFn: any) {
   }
   effectFn.deps.length = 0;
 }
+
 
 export { };
