@@ -1,6 +1,4 @@
-import VIEW from "./view";
-
-const { reactive, effect } = VIEW;
+import { reactive } from "../reactive/effect";
 
 // 封装一个 ref 函数
 export function ref(val: any) {
@@ -35,12 +33,3 @@ export function toRef(obj: any, key: string) {
 }
 
 
-// 创建原始值的响应式数据
-const refVal = ref(1)
-effect(() => {
-    // 在副作用函数内通过 value 属性读取原始值
-    console.log(refVal, refVal.value)
-
-})
-// 修改值能够触发副作用函数重新执行
-refVal.value = 2

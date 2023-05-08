@@ -46,8 +46,10 @@ function dispatch<T extends ComplexActionType>(
 // 实现
 function dispatch(arg: any, payload?: any) {}
 
-dispatch('SYNC')
+dispatch('LOG_IN_SUCCESS',{ accessToken: 'ssh@qq.com'})
 
 dispatch('LOG_IN', {
   emailAddress: 'ssh@qq.com',
 })
+
+

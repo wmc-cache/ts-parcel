@@ -1,5 +1,7 @@
+
 import VIEW from "../reactive/view";
-const { effect, reactive } = VIEW;
+const { effect, ref} = VIEW;
+import { reactive } from "../reactive/effect";
 
 function createRenderer(options: any) {
 
