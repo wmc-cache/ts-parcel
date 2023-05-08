@@ -7,7 +7,7 @@ interface Options {
 export function watch(source: any, cb: Function, options?: Options) {
   let getter: any;
   if (typeof source === "function") {
-    getter = source();                                                                                                                                                               cvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv 
+    getter = source();                                                                                 
   } else {
     getter = () => traverse(source);
   }
