@@ -23,7 +23,7 @@ export function computed(getter: Function) {
   const obj = {
     get value() {
       if (dirty) {
-        value = effectFn();
+        value = effectFn?.();
         dirty = false;
       }
       track(obj, "value");

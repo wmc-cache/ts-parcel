@@ -7,7 +7,7 @@ interface Options {
 export function watch(source: any, cb: Function, options?: Options) {
   let getter: any;
   if (typeof source === "function") {
-    getter = source();
+    getter = source();                                                                                                                                                               cvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv 
   } else {
     getter = () => traverse(source);
   }
@@ -17,7 +17,7 @@ export function watch(source: any, cb: Function, options?: Options) {
   let cleanup: any;
 
   function scheduler(fn?: Function) {
-    newValue = effectFn();
+    newValue = effectFn?.();
     if (cleanup) cleanup();
     cb(newValue, oldValue, onInvalidate);
     oldValue = newValue;
@@ -35,7 +35,7 @@ export function watch(source: any, cb: Function, options?: Options) {
   if (options?.immediate) {
     scheduler();
   } else {
-    oldValue = effectFn();
+    oldValue = effectFn?.();
   }
 }
 
