@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .content {
+            height: 500px;
+            width: 200px;
+            background-color: blue;
+            overflow: scroll;
+        }
+
+        #block {
+            height: 500px;
+            width: 200px;
+            background-color: cornflowerblue;
+        }
+
+        .element {
+            height: 100px;
+            width: 200px;
+            background-color: blueviolet;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="content">
+        <div id="block"></div>
+        <div class="element" data-val="1">
+            1
+        </div>
+        <div class="element" data-val="2">
+            2
+        </div>
+
+    </div>
+
+    <script>
+        let total = 0
+        const elements = document.querySelectorAll('.element'); // 获取需要判断的HTML元素
+
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.innerHTML = "该元素在可视范围内"
+                    total++
+                    console.log('该元素在可视范围内', entry.target.dataset.val);
+                } else {
+                    if (total) total--
+                    entry.target.innerHTML = "该元素在可视范围外"
+                    console.log('该元素在可视范围外', entry.target.dataset.val);
+                }
+            })
+
+        });
+
+        elements.forEach(ele => {
+            observer.observe(ele);
+        })
+        setInterval(() => {
+            block.innerHTML = total
+        }, 1000)
+    </script>
+
+
+    <script>
+        // const images = document.querySelectorAll('img[data-src]');
+
+        // const observer = new IntersectionObserver(entries => {
+        //     entries.forEach(entry => {
+        //         if (entry.isIntersecting) {
+        //             const img = entry.target;
+        //             img.src = img.dataset.src;
+        //             observer.unobserve(img);
+        //         }
+        //     });
+        // });
+
+        // images.forEach(image => {
+        //     observer.observe(image);
+        // });
+    </script>
+</body>
+
+</html>

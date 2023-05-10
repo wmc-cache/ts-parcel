@@ -15,7 +15,20 @@
   接下来的循环类似.... 即在一次循环中，宏任务执行一个，微任务执行一队。
 
 
-  <script> 
+  https://chat.gamejx.cn/#/home
+  JavaScript 的事件循环（Event Loop）是一种处理异步任务的机制，它使得 JavaScript 可以在单线程运行的同时处理多个异步任务，从而避免了阻塞，提高了代码的执行效率。
+
+  JavaScript 的事件循环包括两个重要的组件：执行栈（Execution Context Stack）和事件队列（Event Queue）。
+
+  执行栈是用来管理 JavaScript 代码执行的栈结构，每当执行一个函数时，就会将该函数所形成的执行上下文推到执行栈的顶部，待函数执行完成后，该执行上下文会从执行栈中弹出。
+
+  事件队列则是用来存放异步任务的队列结构，每当一个异步任务完成后，会将它的回调函数加入到事件队列中。当 JavaScript
+  的执行栈为空时，事件循环会从事件队列中取出一个回调函数，推到执行栈的顶部，开始执行该函数。这个过程不断循环，直到事件队列为空。
+
+  事件循环在执行之前，会先检查是否有微任务（Microtask）需要执行，如果有，则会执行所有的微任务，直到微任务队列为空，才会执行下一个宏任务（Macrotask）。JavaScript 中的 Promise 和 async/await
+  都是基于微任务实现的。
+
+  <script>
     console.log(1)
 
     setTimeout(function () {
