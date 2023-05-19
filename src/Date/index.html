@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        const dateString = "2023/8/19"
+
+
+        function calc(dateString) {
+
+            const timestamp = Date.parse(dateString);
+            
+            const day3 = 3 * 24 * 60 * 60 * 1000
+
+            if (Date.now() > timestamp) {
+                console.log('超过时限：红灯')
+                return
+            }
+            if ( timestamp -Date.now() < day3) {
+                console.log("到期前3天黄灯")
+                return
+            }
+            console.log('其它绿灯')
+        }
+
+        calc(dateString)
+ 
+    </script>
+</body>
+
+</html>

@@ -9,11 +9,31 @@
 </head>
 
 <body>
-    <input type="file" id="file">
+    <input type="file" id="upload-input" webkitdirectory multiple>
     <script>
-        file.addEventListener('change', (e) => {
-            console.log(e.target.files[0].slice(1, 2))
-        })
+        const inputElement = document.getElementById("upload-input");
+
+        inputElement.addEventListener("change", handleFiles, false);
+
+        function handleFiles() {
+            const fileList = this.files;
+            const formData = new FormData();
+
+            for (let i = 0; i < fileList.length; i++) {
+                const file = fileList[i];
+
+                // 如果是目录，则跳过
+                if (file.isDirectory) {
+                    continue;
+                }
+
+                formData.append("files[]", file, file.name);
+
+            }
+            formData.append("name", 1)
+            console.log(formData,fileList)
+            // 将 formData 上传到服务器
+        }
     </script>
 </body>
 
