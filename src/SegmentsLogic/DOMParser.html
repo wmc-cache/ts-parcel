@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+   <script>
+        let str = '<img src="11111" title="1691487476292_e8f754e1fac98e25b2c3af36f221fa2.png" alt="1691487476292_e8f754e1fac98e25b2c3af36f221fa2.png" />';
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(str, "text/html");
+        const imgTags = doc.querySelectorAll('img');
+
+        imgTags.forEach((imgTag) => {
+            const src = imgTag.getAttribute('title');
+            imgTag.setAttribute('src', src);
+        });
+
+        const replacedStr = doc.documentElement.innerHTML;
+        console.log(replacedStr);
+   </script> 
+</body>
+</html>
