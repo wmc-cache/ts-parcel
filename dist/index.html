@@ -1,27 +1,163 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns:m="http://schemas.microsoft.com/office/2004/12/omml" xmlns="http://www.w3.org/TR/REC-html40">
 
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <!--[if gte mso 9]><xml><w:WordDocument><w:View>Print</w:View><w:TrackMoves>false</w:TrackMoves><w:TrackFormatting/><w:ValidateAgainstSchemas/><w:SaveIfXMLInvalid>false</w:SaveIfXMLInvalid><w:IgnoreMixedContent>false</w:IgnoreMixedContent><w:AlwaysShowPlaceholderText>false</w:AlwaysShowPlaceholderText><w:DoNotPromoteQF/><w:LidThemeOther>EN-US</w:LidThemeOther><w:LidThemeAsian>ZH-CN</w:LidThemeAsian><w:LidThemeComplexScript>X-NONE</w:LidThemeComplexScript><w:Compatibility><w:BreakWrappedTables/><w:SnapToGridInCell/><w:WrapTextWithPunct/><w:UseAsianBreakRules/><w:DontGrowAutofit/><w:SplitPgBreakAndParaMark/><w:DontVertAlignCellWithSp/><w:DontBreakConstrainedForcedTables/><w:DontVertAlignInTxbx/><w:Word11KerningPairs/><w:CachedColBalance/><w:UseFELayout/></w:Compatibility><w:BrowserLevel>MicrosoftInternetExplorer4</w:BrowserLevel><m:mathPr><m:mathFont m:val="Cambria Math"/><m:brkBin m:val="before"/><m:brkBinSub m:val="--"/><m:smallFrac m:val="off"/><m:dispDef/><m:lMargin m:val="0"/> <m:rMargin m:val="0"/><m:defJc m:val="centerGroup"/><m:wrapIndent m:val="1440"/><m:intLim m:val="subSup"/><m:naryLim m:val="undOvr"/></m:mathPr></w:WordDocument></xml><![endif]-->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>标题</title>
+  <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+  <style lang="scss">@page official {
+      size: 595.3pt 841.9pt;
+      margin: 72.0pt 2.0cm 72.0pt 2.0cm;
+      mso-header-margin: 42.55pt;
+      mso-footer-margin: 49.6pt;
+      mso-paper-source: 0;
+    }
+
+    div.official {
+      page: official
+    }
+
+    .fontFamilySimsun {
+      font-family: "方正仿宋_GBK";
+      font-size: 14pt;
+      font-weight: bold;
+    }
+
+    p {
+      margin: 5px 0;
+    }
+
+    h2 {
+      text-align: center;
+      font-size: 18pt;
+      margin: 0;
+      font-weight: bold;
+      font-family: "方正黑体_GBK";
+    }
+
+    h3 {
+      text-align: center;
+      font-size: 26pt;
+      margin-top: 15px;
+      margin-bottom: 20px;
+      font-weight: bold;
+      font-family: "方正小标宋_GBK";
+    }
+
+    .p-serial {
+      margin: 10px 0;
+      font-size: 16px;
+      font-weight: 400;
+      margin-left: 20px;
+      font-family: "宋体小四";
+      font-weight: bold;
+    }
+
+    table {
+      width: 100%;
+      border: 2px solid #000;
+      border-collapse: collapse;
+    }
+
+    td {
+      text-align: center;
+      padding: 10px 0;
+      font-family: "方正仿宋_GBK" !important;
+      font-weight: 800 !important;
+    }
+
+    .processing {
+      text-align: left !important;
+      padding: 10px 0;
+      padding-left: 10px;
+    }
+
+    .textarea-td {
+      height: 50pt
+    }
+
+    .text-left {
+      text-align: left;
+      margin-bottom: 20px;
+    }
+
+    .fontSize-red {
+      font-size: red;
+    }
+
+    .text-pre {
+      white-space: pre;
+    }
+
+    .department {
+      text-align: left;
+      margin-left: 15px;
+    }
+
+    .approval_class {
+      min-height: 350px;
+      text-align: left;
+    }
+
+    .instructions_title {
+      text-align: left !important;
+    }
+
+    .instructions_line {
+      border-bottom: 1px solid #ccc;
+      padding: 10px 0px;
+      list-style: none;
+    }
+
+    .not-dot {
+      padding: 0;
+    }
+
+    .instructions_con {
+      text-indent: 2em;
+      text-align: left !important;
+    }
+
+    .instructions_footer {
+      text-align: right;
+    }
+
+    .mr-12 {
+      margin-left: 12px;
+    }
+
+    .mr-20 {
+      margin-left: 20px;
+    }
+
+    * {
+      white-space: pre-line;
+      word-wrap: break-word;
+
+    }
+
+    .content-font {
+      font-family: "仿宋GB2321" !important;
+      white-space: pre-wrap;
+    }
+
+    .title-font {
+      font-family: "宋体", "SimSun", "STSong", "Microsoft YaHei", Arial, sans-serif !important;
+      font-size: 12pt !important;
+    }
+
+    .flex-between {
+      display: flex;
+      justify-content: space-between;
+    }</style>
 </head>
 
 <body>
-
-  <div id="root"></div>
-
-
-  <!-- <script src="./index.js"></script> -->
- 
-
-  <!-- <script src="./src/WriteTopic/myPromise.ts"></script> -->
-
-
-  <script src="/translateArrToTree.d48c4442.js"></script>
-
   
+  
+
 </body>
 
 </html>
