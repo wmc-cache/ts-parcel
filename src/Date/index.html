@@ -3,36 +3,89 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>倒计时示例</title>
 </head>
 
 <body>
+
+    <div id="countdown"></div>
+
     <script>
-        const dateString = "2023/8/19"
+
+        let countdownValue = 0
 
 
-        function calc(dateString) {
 
-            const timestamp = Date.parse(dateString);
-            
-            const day3 = 3 * 24 * 60 * 60 * 1000
-
-            if (Date.now() > timestamp) {
-                console.log('超过时限：红灯')
-                return
-            }
-            if ( timestamp -Date.now() < day3) {
-                console.log("到期前3天黄灯")
-                return
-            }
-            console.log('其它绿灯')
+        function padZero(number) {
+            return number < 10 ? `0${number}` : `${number}`;
         }
 
-        calc(dateString)
- 
+
+        let countdown = (minutes) => {
+            // 将分钟数转换为毫秒数
+            const milliseconds = Number(minutes) * 60 * 1000;
+
+            // 获取目标时间（当前时间 + 毫秒数）
+            const targetTime = new Date().getTime() + milliseconds;
+
+            // 更新倒计时的显示
+            function updateCountdown() {
+                const currentTime = new Date().getTime();
+                const timeDifference = targetTime - currentTime;
+
+                // 计算剩余的分钟和秒
+                let remainingHours = Math.floor((timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                let remainingMinutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
+                let remainingSeconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
+
+                remainingHours = padZero(remainingHours);
+                remainingMinutes = padZero(remainingMinutes);
+                remainingSeconds = padZero(remainingSeconds);
+
+
+
+                // 如果倒计时结束，清除定时器
+                if (timeDifference <= 0) {
+                    clearInterval(intervalId);
+                    return '提交'
+                }
+
+                return `${remainingHours}:${remainingMinutes}:${remainingSeconds}`
+            }
+
+            // 初始调用一次以防止页面加载时的延迟
+            updateCountdown();
+
+            // 每秒更新一次倒计时
+            const intervalId = setInterval(() => {
+                countdownValue = updateCountdown()
+            }, 1000);
+
+
+        }
+
+        // 示例：设定倒计时为 10 分钟
+        const minutesToCountdown = '1';
+
+
+        function isNumericString(str) {
+            // 使用正则表达式检查字符串是否只包含数字
+            return /^\d+$/.test(str);
+        }
+
+        if (isNumericString(minutesToCountdown)) {
+            // 启动倒计时
+            countdown(Number(minutesToCountdown));
+            setInterval(() => {
+                console.log(countdownValue)
+            }, 1000)
+        }
+
+
+
     </script>
+
 </body>
 
 </html>
