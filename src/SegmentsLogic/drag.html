@@ -1,0 +1,78 @@
+<style>
+    #drag {
+        padding: 10px;
+        border: 1px solid black;
+        display: flex;
+        justify-content: flex-start;
+        gap: 20px;
+    }
+
+    #drop {
+        margin-top: 20px;
+        padding: 50px;
+        border: 2px dashed black;
+    }
+
+    #box {
+        width: 100px;
+        height: 100px;
+        border: 1px solid wheat;
+    }
+</style>
+
+
+<div id="drag" dropzone="true">
+
+
+    <button draggable="true">点一下</button>
+
+
+    <input draggable="true">
+
+
+
+</div>
+
+
+
+<div id="drop" dropzone="true">
+    <div id="box" dropzone="true" draggable="true">123</div>
+</div>
+
+<script>
+    const drag = document.getElementById('drag');
+
+    const drop = document.getElementById('drop');
+
+    const box = document.getElementById('box');
+
+    const arr = [drag, drop, box]
+
+    let current
+
+    arr.forEach(ele => init(ele))
+
+    function init(dom) {
+
+        dom.addEventListener('dragstart', function (event) {
+           
+            current = event.target
+
+        });
+
+        dom.addEventListener('dragover', function (event) {
+
+            event.preventDefault();
+
+        });
+        dom.addEventListener('drop', function (event) {
+
+    
+            event.preventDefault();
+
+            event.stopPropagation();
+
+            dom.append(current)
+        });
+    }
+</script>
