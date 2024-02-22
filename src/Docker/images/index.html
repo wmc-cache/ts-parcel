@@ -1,0 +1,4 @@
+docker build -t my-nginx-image .
+
+
+docker run --name my-nginx-container -d -p 8080:80 my-nginx-image
