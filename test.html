@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <title>简化版</title>
+</head>
+
+<body>
+
+    <div id="app"></div>
+
+    <script>
+        // 创建一个简单的 React 元素
+        function createElement(tag, props, ...children) {
+            if (typeof tag === 'function') {
+                return tag(props, ...children);
+            }
+            return {
+                tag,
+                props: { ...props, children },
+            };
+        }
+
+        // 渲染函数，用于将 React 元素渲染到容器中
+        function render(vdom, container) {
+            if (typeof vdom === 'string') {
+                container.appendChild(document.createTextNode(vdom));
+                return;
+            }
+
+            if (!vdom) {
+                return; // 如果 vdom 不存在，直接返回
+            }
+
+            if (typeof vdom.tag === 'function') {
+                render(vdom.tag(vdom.props), container);
+                return;
+            }
+
+            const { tag, props } = vdom;
+            const node = document.createElement(tag);
+
+            // 子元素处理
+            const children = props.children || [];
+            children.forEach(child => render(child, node));
+
+            // 属性处理
+            Object.keys(props).forEach(key => {
+                if (key !== 'children') {
+                    node[key] = props[key];
+                }
+            });
+
+            container.appendChild(node);
+        }
+
+        // 简化版的 React 组件
+        function Component(props) {
+            // 确保 props 和 props.children 是定义的
+            const children = props && props.children ? props.children : [];
+            return createElement('div', null, ...children);
+        }
+
+        // 创建虚拟 DOM
+        const element = createElement(
+            'div',
+            { id: 'container' },
+            createElement('h1', null, '简化版'),
+            createElement('p', null, '这是一个简化版的实现。要有转场描述'),
+            createElement(Component, null,
+                createElement('p', null, '这是一个组件内的文本。')
+            )
+        );
+
+        // 渲染虚拟 DOM 到实际的 DOM 节点
+        render(element, document.getElementById('app'));
+    </script>
+
+</body>
+
+</html>
