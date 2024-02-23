@@ -18,19 +18,16 @@
         //     arg: 传递给生成器方法的参数。
 
 
-        //  执行生成器的一步：通过 gen[key](arg) 执行生成器的 next 或 throw 方法，key 表示执行的方法，arg 是传递的参数。
-
-
-        //  错误处理：如果执行过程中出现错误，会通过 reject 函数拒绝外部的 Promise，并结束执行。
-
-
         // 处理生成器的返回结果(info)：
         // 如果 info.done 为 true，表示生成器函数已经执行完毕，此时通过 resolve(value) 解决外部的 Promise。
         // 如果 info.done 为 false，表示生成器函数还没有执行完毕，此时将 value 包装成 Promise（以处理异步操作），并通过.then(_next, _throw) 等待这个 Promise 解决或拒绝，然后继续执行生成器的下一步或处理错误。
         function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
             try {
-                var info = gen[key](arg);
-                var value = info.value;
+
+                const info = gen[key](arg);  //通过 gen[key](arg) 执行生成器的 next 或 throw 方法，key 表示执行的方法，arg 是传递的参数。
+ 
+                const value = info.value;
+
             } catch (error) {
                 reject(error);
                 return;
@@ -50,10 +47,14 @@
         // 开始执行生成器：通过调用 _next(undefined) 启动生成器的执行流程。
 
         function _asyncToGenerator(fn) {
+
             return function () {
-                var self = this, args = arguments;
+
+                const self = this, args = arguments;
+
                 return new Promise(function (resolve, reject) {
-                    var gen = fn.apply(self, args);
+                    
+                    const gen = fn.apply(self, args);
 
                     function _next(value) {
                         asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);
@@ -65,8 +66,24 @@
 
                     _next(undefined);
                 });
+
+
             };
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         // 使用上述转换函数的例子
         function fetchData() {
@@ -81,13 +98,17 @@
             });
         }
 
-        var asyncFunction = _asyncToGenerator(function* () {
-            console.log("等待数据...");
-            var data = yield fetchData();
-            console.log("数据接收:", data);
-            var data2 = yield fetchData2();
-            console.log("数据接收2:", data2);
-        });
+        var asyncFunction = _asyncToGenerator(
+
+            function* () {
+                console.log("等待数据...");
+                var data = yield fetchData();
+                console.log("数据接收:", data);
+                var data2 = yield fetchData2();
+                console.log("数据接收2:", data2);
+            }
+        
+        );
 
         asyncFunction();  // 调用模拟的 async 函数
 
